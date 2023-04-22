@@ -4,6 +4,8 @@
 
 int main()
 {
-	initgraph(800, 640);
+	GameEasyx game;
+	game.run();
+
 	return 0;
 }

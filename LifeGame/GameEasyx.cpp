@@ -17,9 +17,13 @@ void GameEasyx::initGrid()
     {
         for (int j = 0; j < ROWS; j++)
         {
-            if (rand() % 114514 == 0)
+            if (rand() % 3 == 0)
             {
-                mGrid[i][j] == 1;
+                mGrid[i][j] = 1;
+            }
+            else
+            {
+                mGrid[i][j] = 0;
             }
         }
     }
@@ -70,4 +74,9 @@ void GameEasyx::updateGrid()
     // 1.如果一个活着的细胞周围（上下左右和四个对角线）有2个或3个活着的细胞，那么它在下一个时刻仍然是活着的；
     // 2.如果一个活着的细胞周围的活着的细胞少于2个，或者超过3个，那么它在下一个时刻会死亡；
     // 3.如果一个死亡的细胞周围恰好有3个活着的细胞，那么它在下一个时刻会复活成为一个活着的细胞。
+
+    //更新Grid
+    for (int i = 0; i < COLS; i++)
+        for (int j = 0; j < ROWS; j++)
+            mGrid[i][j] = mUpdateGrid[i][j];
 }
