@@ -12,7 +12,7 @@ GameEasyx::GameEasyx() {
 
     // 初始化网格
     initNullGrid();
-    initRandomGrid();
+    //initRandomGrid();
 }
 
 void GameEasyx::initNullGrid()
@@ -21,14 +21,7 @@ void GameEasyx::initNullGrid()
     {
         for (int j = 0; j < ROWS; j++)
         {
-            if (rand() % 3 == 0)
-            {
-                mGrid[i][j] = 1;
-            }
-            else
-            {
-                mGrid[i][j] = 0;
-            }
+            mGrid[i][j] = 0;
         }
     }
 }
@@ -62,6 +55,11 @@ void GameEasyx::run()
     // 测试帧数控制
     //DWORD lastFrameTime = timeGetTime(); // 上一帧开始时间
 
+    while (handleInput() != 1)
+    {
+        drawGrid();
+    }
+
     //游戏主循环
     while (true)// 未来加入返回按钮
     {
@@ -89,7 +87,7 @@ void GameEasyx::run()
 
         // 计算需要休眠的时间，以保证每秒钟 60 帧
         //DWORD sleepTime
-        Sleep(1000/6);
+       //Sleep(1000/6); //开发时注释
     }
 
     //closegraph();
@@ -122,6 +120,10 @@ void GameEasyx::drawGrid()
     rectangle(0, 600, 70, 650);
     TCHAR e[] = _T("确定");
     outtextxy(15, 620, e);
+
+    rectangle(70, 600, 140, 650);
+    TCHAR f[] = _T("开始");
+    outtextxy(85, 620, f);
 
     // 等待绘图完毕刷新，以免屏幕闪烁
     BeginBatchDraw();
@@ -190,4 +192,60 @@ void GameEasyx::updateGrid()
     for (int i = 0; i < COLS; i++)
         for (int j = 0; j < ROWS; j++)
             mGrid[i][j] = mUpdateGrid[i][j];
+}
+
+bool GameEasyx::handleInput()
+{
+    // 检测鼠标事件
+    if (MouseHit())
+    {
+        MOUSEMSG msg = GetMouseMsg();
+        if (msg.uMsg == WM_LBUTTONDOWN)
+        {
+            //开始判断
+            if (msg.x >= 70 && msg.x <= 140 && msg.y >= 600 && msg.y <= 650)
+            {
+                printf("游戏循环开始\n");
+                // 返回主菜单界面
+                return 1;
+            }
+
+            // 判断鼠标是否点击了游戏区域内的方格
+            for (int i = 0; i < COLS; i++)
+            {
+                for (int j = 0; j < ROWS; j++)
+                {
+                    if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
+                        msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
+                    {
+                        printf("1\n");
+                        // 设置对应的mGrid[i][j]值为1
+                        //setfillcolor(0x700B6E); // 南开紫
+                        //fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
+                        mGrid[i][j] = 1;
+                    }
+                }
+            }
+        }
+        if (msg.uMsg == WM_RBUTTONDOWN)
+        {
+            // 判断鼠标是否点击了游戏区域内的方格
+            for (int i = 0; i < COLS; i++)
+            {
+                for (int j = 0; j < ROWS; j++)
+                {
+                    if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
+                        msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
+                    {
+                        printf("1\n");
+                        // 设置对应的mGrid[i][j]值为1
+                        //setfillcolor(0x700B6E); // 南开紫
+                        //fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
+                        mGrid[i][j] = 0;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }
