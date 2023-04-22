@@ -19,9 +19,9 @@ private:
 
 	bool mHandleRemenu = 0;
 	int mGeneration = 0;
-	int mGrid[COLS][ROWS];
-	int mGridCopy[COLS][ROWS];
-	int mUpdateGrid[COLS][ROWS];
+	bool mGrid[COLS][ROWS];
+	bool mGridCopy[COLS][ROWS];
+	bool mUpdateGrid[COLS][ROWS];
 public:
 	GameEasyx();
 	void run();

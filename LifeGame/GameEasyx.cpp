@@ -120,6 +120,8 @@ flag1:
 
 void GameEasyx::drawGrid(int FillTheme)
 {
+    BeginBatchDraw();
+
     // 背景色为白色
     setbkcolor(WHITE);
     cleardevice();
@@ -197,7 +199,6 @@ void GameEasyx::drawGrid(int FillTheme)
     outtextxy(365, 620, cDAI);
 
     // 等待绘图完毕刷新，以免屏幕闪烁
-    BeginBatchDraw();
     FlushBatchDraw();
 }
 
