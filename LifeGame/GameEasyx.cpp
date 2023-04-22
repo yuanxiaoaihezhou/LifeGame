@@ -2,6 +2,8 @@
 #include "GlobalConfig.h"
 #include <graphics.h>
 #include <ctime>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
 
 
 GameEasyx::GameEasyx() {
@@ -53,12 +55,23 @@ void GameEasyx::run()
     //开启了控制台
     initgraph(WINDOW_WIDTH, WINDOW_HEIGHT, EX_SHOWCONSOLE);
 
+    // 测试帧数控制
+    //DWORD lastFrameTime = timeGetTime(); // 上一帧开始时间
+
     //游戏主循环
-    while (true)//未来加入返回按钮
+    while (true)// 未来加入返回按钮
     {
+        // 计算时间差，以便限制帧率
+        //DWORD currentTime = timeGetTime();
+        //DWORD deltaTime = currentTime - lastFrameTime;
+        //lastFrameTime = currentTime;
+
         drawGrid();
         updateGrid();
-        Sleep(500);
+
+        // 计算需要休眠的时间，以保证每秒钟 60 帧
+        //DWORD sleepTime
+        Sleep(1000/6);
     }
 
     closegraph();
