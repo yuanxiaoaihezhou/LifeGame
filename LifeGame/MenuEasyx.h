@@ -6,6 +6,10 @@ private:
 	bool mConfig = 0;
 	bool mDevelopInfo = 0;
 	bool mQuitGame = 0;
+	bool mIsDefaultSelected = 1;
+	bool mIsOTTSelected = false; // 表示是否选中了 OTTO 按钮
+	bool mIsASoulSelected = false; // 表示是否选中了 A-Soul 按钮
+
 	void drawMenu();
 	void drawSettings();
 	void drawDeveloperInfo();

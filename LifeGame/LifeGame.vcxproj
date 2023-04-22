@@ -144,7 +144,8 @@
     <ClInclude Include="MenuEasyx.h" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="res\OpeingTheme.mp3" />
+    <Media Include="res\DeaufltGame.wav" />
+    <Media Include="res\GameOtto.wav" />
     <Media Include="res\OpeingTheme.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

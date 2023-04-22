@@ -6,13 +6,16 @@
 
 MenuEasyx::MenuEasyx()
 {
+    initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
 	drawMenu();
     //PlaySound(TEXT("music.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // 播放音乐
 }
 
 void MenuEasyx::drawMenu()
 {
-    initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
+
+    //initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
+    printf("绘制主菜单");
     PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // 播放音乐
     setbkcolor(WHITE);
     cleardevice();
@@ -51,8 +54,11 @@ void MenuEasyx::drawMenu()
 
 void MenuEasyx::run() 
 {
+    printf("主界面运行\n");
+    FlushMouseMsgBuffer();
     while (!mStartGame && !mConfig && !mDevelopInfo && !mQuitGame)
     {
+        printf("进入主界面鼠标检测循环\n");
         // 检测鼠标事件
         if (MouseHit())
         {
@@ -112,6 +118,9 @@ void MenuEasyx::run()
 
 void MenuEasyx::drawSettings()
 {
+    // 清空鼠标事件队列
+    FlushMouseMsgBuffer();
+
     setbkcolor(WHITE);
     cleardevice();
 
@@ -122,10 +131,60 @@ void MenuEasyx::drawSettings()
     TCHAR a[] = _T("设置");
     outtextxy(200, 100, a);
 
+    // 绘制默认按钮
+    settextstyle(16, 0, 0);
+    if (mIsDefaultSelected) {
+        setfillcolor(YELLOW); // 如果默认按钮被选中，填充黄色
+        fillrectangle(220, 260, 280, 290);
+    }
+    else {
+        setfillcolor(WHITE); // 否则填充白色
+        fillrectangle(220, 260, 280, 290);
+    }
+    rectangle(220, 260, 280, 290);
+    TCHAR defaultTheme[] = _T("默认");
+    outtextxy(230, 265, defaultTheme);
+
+    // 绘制OTTO按钮
+    if (mIsOTTSelected) {
+        setfillcolor(YELLOW); // 如果 OTTO 按钮被选中，填充黄色
+        fillrectangle(290, 260, 350, 290);
+    }
+    else {
+        setfillcolor(WHITE); // 否则填充白色
+        fillrectangle(290, 260, 350, 290);
+    }
+    rectangle(290, 260, 350, 290);
+    TCHAR OTTO[] = _T("OTTO");
+    outtextxy(300, 265, OTTO);
+
+    // 绘制A-Soul按钮
+    if (mIsASoulSelected) {
+        setfillcolor(YELLOW); // 如果 A-Soul 按钮被选中，填充黄色
+        fillrectangle(360, 260, 420, 290);
+    }
+    else {
+        setfillcolor(WHITE); // 否则填充白色
+        fillrectangle(360, 260, 420, 290);
+    }
+    rectangle(360, 260, 420, 290);
+    TCHAR AS[] = _T("A-Soul");
+    outtextxy(370, 265, AS);
+
     settextstyle(20, 0, 0);
     rectangle(200, 200, 400, 250);
     TCHAR b[] = _T("风格");
     outtextxy(210, 210, b);
+
+    // 绘制6帧按钮
+    rectangle(220, 360, 280, 390);
+    TCHAR sixFrames[] = _T("6帧");
+    outtextxy(230, 365, sixFrames);
+
+    // 绘制无限制帧按钮
+    rectangle(290, 360, 350, 390);
+    TCHAR noLimitFrame[] = _T("无限");
+    outtextxy(300, 365, noLimitFrame);
 
     rectangle(200, 300, 400, 350);
     TCHAR c[] = _T("画面质量");
@@ -152,7 +211,7 @@ void MenuEasyx::drawSettings()
     FlushBatchDraw();
 
     // 等待用户交互
-    while (1)
+    while (mConfig)
     {
         if (MouseHit())
         {
@@ -165,7 +224,7 @@ void MenuEasyx::drawSettings()
                     // 返回主菜单界面
                     mConfig = false;
                     drawMenu();
-                    return;
+                    break;
                 }
 
                 // 如果用户点击了取消按钮
@@ -175,6 +234,57 @@ void MenuEasyx::drawSettings()
                     mConfig = false;
                     drawMenu();
                     return;
+                }
+
+                // 如果用户点击了默认按钮
+                if (msg.x >= 220 && msg.x <= 280 && msg.y >= 260 && msg.y <= 290)
+                {
+                    printf("默认\n");
+
+                    // 设置风格为默认
+                    Theme = 0;
+
+                    // 更新选中状态
+                    mIsDefaultSelected = true;
+                    mIsOTTSelected = false;
+                    mIsASoulSelected = false;
+
+                    cleardevice();
+                    drawSettings();
+                }
+
+                // 如果用户点击了 OTTO 按钮
+                if (msg.x >= 290 && msg.x <= 350 && msg.y >= 260 && msg.y <= 290)
+                {
+                    printf("OTTO\n");
+
+                    // 设置风格为 OTTO
+                    Theme = 1;
+
+                    // 更新选中状态
+                    mIsDefaultSelected = false;
+                    mIsOTTSelected = true;
+                    mIsASoulSelected = false;
+
+                    cleardevice();
+                    drawSettings();
+                }
+
+                // 如果用户点击了 A-Soul 按钮
+                if (msg.x >= 360 && msg.x <= 420 && msg.y >= 260 && msg.y <= 290)
+                {
+                    printf("A-Soul\n");
+
+                    // 设置风格为 A-Soul
+                    Theme = 2;
+
+                    // 更新选中状态
+                    mIsDefaultSelected = false;
+                    mIsOTTSelected = false;
+                    mIsASoulSelected = true;
+
+                    cleardevice();
+                    drawSettings();
                 }
             }
         }

@@ -9,7 +9,14 @@
 
 GameEasyx::GameEasyx() {
     srand(time(NULL));
-
+    if (Theme == 0)
+    {
+        PlaySound(TEXT("res\\DeaufltGame.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+    }
+    if (Theme == 1)
+    {
+        PlaySound(TEXT("res\\GameOtto.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+    }
     // ³õÊ¼»¯Íø¸ñ
     initNullGrid();
     //initRandomGrid();
