@@ -23,6 +23,9 @@ GameEasyx::GameEasyx() {
         PlaySound(TEXT("res\\A-soul.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     }
 
+    loadimage(&imgOTTO, _T("res\\otto.jpg"));
+    loadimage(&imgAVA, _T("res\\otto.jpg"));
+
     // 初始化网格
     initNullGrid();
 }
@@ -139,15 +142,11 @@ void GameEasyx::drawGrid(int FillTheme)
                     // IMAGE imgForMemoryTest; // 测试用
                     //loadimage(&imgForMemoryTest, _T("res\\testForMemory.jpeg")); // 测试用
 
-                    IMAGE img; // 声明一个IMAGE对象用于加载图像
-                    loadimage(&img, _T("res\\otto.jpg"));
-                    putimage(i * CELL_SIZE, j * CELL_SIZE, &img);
+                    putimage(i * CELL_SIZE, j * CELL_SIZE, &imgOTTO);
                 }
                 if (Theme == 2)
                 {
-                    IMAGE img; // 声明一个IMAGE对象用于加载图像
-                    loadimage(&img, _T("res\\DATOU.png")); // 加载一张名为test.jpg的图片
-                    putimage(i * CELL_SIZE, j * CELL_SIZE, &img);
+                    putimage(i * CELL_SIZE, j * CELL_SIZE, &imgAVA);
                 }
             }
         }
@@ -205,6 +204,36 @@ void GameEasyx::drawGrid(int FillTheme)
 // 更新每帧，使用updateGrid暂时存储更改，并在遍历完原矩阵后复制回Grid
 void GameEasyx::updateGrid()
 {
+    memcpy(mGridCopy, mGrid, sizeof(mGrid)); // 使用memcpy函数代替两层for循环来拷贝mGrid数组
+
+    int col, row;
+    for (int i = 0; i < COLS; i++)
+    {
+        col = (i - 1 + COLS) % COLS;
+        int next_col = (i + 1) % COLS;
+
+        for (int j = 0; j < ROWS; j++)
+        {
+            row = (j - 1 + ROWS) % ROWS;
+            int next_row = (j + 1) % ROWS;
+
+            // 计算周围细胞数量
+            int neighbours = mGrid[col][row] + mGrid[i][row] + mGrid[next_col][row] +
+                mGrid[col][j] + mGrid[next_col][j] +
+                mGrid[col][next_row] + mGrid[i][next_row] + mGrid[next_col][next_row];
+
+            // 使用三目运算符简化代码
+            mUpdateGrid[i][j] = mGrid[i][j] ? (neighbours < 2 || neighbours > 3 ? 0 : 1) : (neighbours == 3 ? 1 : 0);
+        }
+    }
+
+    memcpy(mGrid, mUpdateGrid, sizeof(mGrid)); // 使用memcpy函数代替两层for循环来拷贝mUpdateGrid数组
+}
+
+/*
+void GameEasyx::updateGrid()
+{
+    
     for (int i = 0; i < COLS; i++)
     {
         for (int j = 0; j < ROWS; j++)
@@ -212,6 +241,8 @@ void GameEasyx::updateGrid()
             mGridCopy[i][j] = mGrid[i][j];
         }
     }
+
+
     // 规则
     // 1.如果一个活着的细胞周围（上下左右和四个对角线）有2个或3个活着的细胞，那么它在下一个时刻仍然是活着的；
     // 2.如果一个活着的细胞周围的活着的细胞少于2个，或者超过3个，那么它在下一个时刻会死亡；
@@ -272,6 +303,7 @@ void GameEasyx::updateGrid()
         for (int j = 0; j < ROWS; j++)
             mGrid[i][j] = mUpdateGrid[i][j];
 }
+*/
 
 bool GameEasyx::handleInput()
 {

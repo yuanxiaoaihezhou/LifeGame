@@ -1,4 +1,5 @@
 #pragma once
+#include <graphics.h>
 #include "GlobalConfig.h"
 
 class GameEasyx 
@@ -12,6 +13,9 @@ private:
 	bool isSame();// 判断数组前后是否相等 
 
 	bool mStartGame = 0;
+
+	IMAGE imgOTTO;
+	IMAGE imgAVA;
 
 	bool mHandleRemenu = 0;
 	int mGeneration = 0;
