@@ -50,4 +50,38 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\A-Soul.wav">
+      <Filter>资源文件</Filter>
+    </Media>
+    <Media Include="res\AVA.wav">
+      <Filter>资源文件</Filter>
+    </Media>
+    <Media Include="res\DeaufltGame.wav">
+      <Filter>资源文件</Filter>
+    </Media>
+    <Media Include="res\Dududu.wav">
+      <Filter>资源文件</Filter>
+    </Media>
+    <Media Include="res\GameOtto.wav">
+      <Filter>资源文件</Filter>
+    </Media>
+    <Media Include="res\OpeingTheme.wav">
+      <Filter>资源文件</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\DATOU.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\DATOU_yuan.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\otto.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\otto_20.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

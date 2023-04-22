@@ -6,7 +6,8 @@
 
 MenuEasyx::MenuEasyx()
 {
-    initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
+    //initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE); // debug
+    initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50); // release
 	drawMenu();
     PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ≤•∑≈“Ù¿÷
 }
