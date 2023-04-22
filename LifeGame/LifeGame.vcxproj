@@ -146,11 +146,14 @@
     <ClCompile Include="GlobalConfig.cpp" />
     <ClCompile Include="main_easyx.cpp" />
     <ClCompile Include="MenuEasyx.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="GameEasyx.h" />
     <ClInclude Include="MenuEasyx.h" />
+    <ClInclude Include="RubbishBin.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\A-Soul.wav" />

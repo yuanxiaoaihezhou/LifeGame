@@ -10,7 +10,7 @@ private:
 	void drawGrid(int FillTheme);// 更新矩阵数组
 	void updateGrid();// 更新画面
 	bool handleInput();
-	bool isSame();// 判断数组前后是否相等 
+	bool isSame() const;// 判断数组前后是否相等 
 
 	bool mStartGame = 0;
 

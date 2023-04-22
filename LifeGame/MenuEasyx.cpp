@@ -1,6 +1,7 @@
 #include "MenuEasyx.h"
 #include "GameEasyx.h"
 #include "GlobalConfig.h"
+#include "utils.h"
 #include <graphics.h>
 #include <cstdio>
 
@@ -147,6 +148,7 @@ void MenuEasyx::drawSettings()
     rectangle(290, 260, 350, 290);
     TCHAR OTTO[] = _T("OTTO");
     outtextxy(300, 265, OTTO);
+
 
     // ªÊ÷∆A-Soul∞¥≈•
     if (mIsASoulSelected) 

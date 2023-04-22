@@ -67,16 +67,20 @@ flag1:
         drawGrid(Theme);
     }
 
-    //游戏主循环
-    while (true)
+    // 游戏主循环
+    while (1)
     {
-        //重置mHandleMenu
+        // 减少 Sleep 的时间
+        Sleep(1000 / 60); // 将帧率提高到 60 FPS
+
+        // 重置 mHandleMenu
         if (mHandleRemenu == 1)
         {
             mHandleRemenu = 0;
             break;
         }
 
+        // 更频繁地检查鼠标事件
         if (MouseHit())
         {
             MOUSEMSG msg = GetMouseMsg();
@@ -104,13 +108,20 @@ flag1:
                 }
             }
         }
+
+        // 绘制网格
         drawGrid(Theme);
+
+        // 更新网格
         updateGrid();
+
+        // 更新代数
         if (isSame() == 0)
             mGeneration += 1;
         if (mGeneration >= 999)
             mGeneration = 0;
 
+        // 根据 FPS 设置 Sleep 时间
         if (FPS == 0)
         {
             Sleep(1000 / 6);
@@ -131,8 +142,8 @@ void GameEasyx::drawGrid(int FillTheme)
     setlinecolor(BLACK);       // 设置线的颜色为黑色
     for (int i = 0; i < COLS; i++) {
         for (int j = 0; j < ROWS; j++) {
-            rectangle(i * CELL_SIZE,  j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);// 绘制矩形
-            if (mGrid[i][j] == 1) 
+            rectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);// 绘制矩形
+            if (mGrid[i][j] == 1)
             {
                 if (Theme == 0)
                 {
@@ -141,9 +152,6 @@ void GameEasyx::drawGrid(int FillTheme)
                 }
                 if (Theme == 1)
                 {
-                    // IMAGE imgForMemoryTest; // 测试用
-                    //loadimage(&imgForMemoryTest, _T("res\\testForMemory.jpeg")); // 测试用
-
                     putimage(i * CELL_SIZE, j * CELL_SIZE, &imgOTTO);
                 }
                 if (Theme == 2)
@@ -153,7 +161,6 @@ void GameEasyx::drawGrid(int FillTheme)
             }
         }
     }
-
 
     setlinestyle(PS_SOLID, 1); // 设置线型为实线，线宽1个像素
     setlinecolor(BLACK);       // 设置线的颜色为黑色
@@ -185,12 +192,11 @@ void GameEasyx::drawGrid(int FillTheme)
     outtextxy(295, 620, cZHUBU);
 
     // 代 
-    // 在这里可能会出现bug，标记一下
     rectangle(350, 600, 420, 650);
     char tempDAI[10] = "代: ";
     sprintf(tempDAI, "代: %d", mGeneration);
 
-    WCHAR wcDAI[20];
+    WCHAR wcDAI[200];
     MultiByteToWideChar(CP_ACP, 0, tempDAI, -1, wcDAI, sizeof(wcDAI));
 
     TCHAR cDAI[20];
@@ -198,7 +204,7 @@ void GameEasyx::drawGrid(int FillTheme)
 
     outtextxy(365, 620, cDAI);
 
-    // 等待绘图完毕刷新，以免屏幕闪烁
+    // 立即刷新屏幕
     FlushBatchDraw();
 }
 
@@ -230,82 +236,6 @@ void GameEasyx::updateGrid()
 
     memcpy(mGrid, mUpdateGrid, sizeof(mGrid)); // 使用memcpy函数代替两层for循环来拷贝mUpdateGrid数组
 }
-
-/*
-void GameEasyx::updateGrid()
-{
-    
-    for (int i = 0; i < COLS; i++)
-    {
-        for (int j = 0; j < ROWS; j++)
-        {
-            mGridCopy[i][j] = mGrid[i][j];
-        }
-    }
-
-
-    // 规则
-    // 1.如果一个活着的细胞周围（上下左右和四个对角线）有2个或3个活着的细胞，那么它在下一个时刻仍然是活着的；
-    // 2.如果一个活着的细胞周围的活着的细胞少于2个，或者超过3个，那么它在下一个时刻会死亡；
-    // 3.如果一个死亡的细胞周围恰好有3个活着的细胞，那么它在下一个时刻会复活成为一个活着的细胞。
-
-    // 进行状态判断
-    for (int i = 0; i < COLS; i++)
-    {
-        for (int j = 0; j < ROWS; j++)
-        {
-            int neighbours = 0;
-
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    // 避开本身的格子
-                    if (x == 0 && y == 0)
-                    {
-                        continue;
-                    }
-
-                    // 处理边界
-                    int col = (i + x + COLS) % COLS;
-                    int row = (j + y + ROWS) % ROWS;
-
-                    neighbours += mGrid[col][row];
-                }
-            }
-
-            if (mGrid[i][j] == 1) // 存活
-            {
-                if (neighbours < 2 || neighbours > 3)
-                {
-                    mUpdateGrid[i][j] = 0;
-                }
-                else
-                {
-                    mUpdateGrid[i][j] = 1;
-                }
-            }
-            else
-            {
-                if (neighbours == 3)
-                {
-                    mUpdateGrid[i][j] = 1;
-                }
-                else
-                {
-                    mUpdateGrid[i][j] = 0;
-                }
-            }
-        }
-    }
-
-    //拷贝mUpdateGrid
-    for (int i = 0; i < COLS; i++)
-        for (int j = 0; j < ROWS; j++)
-            mGrid[i][j] = mUpdateGrid[i][j];
-}
-*/
-
 bool GameEasyx::handleInput()
 {
     // 检测鼠标事件
@@ -422,7 +352,7 @@ bool GameEasyx::handleInput()
     return 0;
 }
 
-bool GameEasyx::isSame()
+bool GameEasyx::isSame() const
 {
     for (int i = 0; i < COLS; i++)
     {
