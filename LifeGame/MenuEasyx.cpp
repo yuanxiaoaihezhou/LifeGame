@@ -53,7 +53,7 @@ void MenuEasyx::run()
     printf("主界面运行\n");
     FlushMouseMsgBuffer();
 
-    while (!mStartGame && !mConfig && !mDevelopInfo && !mQuitGame)
+    while (!mStartGame && !mSettings && !mDevelopInfo && !mQuitGame)
     {
         // 检测鼠标事件
         if (MouseHit())
@@ -76,7 +76,7 @@ void MenuEasyx::run()
 
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 300 && msg.y <= 350)
                 {
-                    mConfig = true;
+                    mSettings = true;
                     cleardevice();
                     printf("进入设置页面\n"); // 添加调试输出
                     drawSettings();
@@ -215,7 +215,7 @@ void MenuEasyx::drawSettings()
     FlushBatchDraw();
 
     // 等待用户交互
-    while (mConfig)
+    while (mSettings)
     {
         if (MouseHit())
         {
@@ -226,7 +226,7 @@ void MenuEasyx::drawSettings()
                 if (msg.x >= 200 && msg.x <= 250 && msg.y >= 500 && msg.y <= 530)
                 {
                     // 返回主菜单界面
-                    mConfig = false;
+                    mSettings = false;
                     drawMenu();
                     break;
                 }
@@ -235,7 +235,7 @@ void MenuEasyx::drawSettings()
                 if (msg.x >= 350 && msg.x <= 400 && msg.y >= 500 && msg.y <= 530)
                 {
                     // 返回主菜单界面
-                    mConfig = false;
+                    mSettings = false;
                     drawMenu();
                     return;
                 }
