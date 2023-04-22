@@ -27,6 +27,9 @@
     <ClCompile Include="MenuEasyx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalConfig.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEasyx.h">

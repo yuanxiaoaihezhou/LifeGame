@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameEasyx.cpp" />
+    <ClCompile Include="GlobalConfig.cpp" />
     <ClCompile Include="main_sdl.cpp" />
     <ClCompile Include="main_easyx.cpp" />
     <ClCompile Include="MenuEasyx.cpp" />

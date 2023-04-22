@@ -1,7 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "GameEasyx.h"
 #include "GlobalConfig.h"
 #include <graphics.h>
 #include <stdio.h>
+#include <string.h>
 #include <ctime>
 #include <iostream>
 
@@ -56,7 +58,7 @@ void GameEasyx::run()
     flag1:
     while (handleInput() != 1)
     {
-        drawGrid();
+        drawGrid(Theme);
     }
 
     //游戏主循环
@@ -88,13 +90,18 @@ void GameEasyx::run()
                     for (int i = 0; i < COLS; i++)
                         for (int j = 0; j < ROWS; j++)
                             mUpdateGrid[i][j] = 0;
+                    mGeneration = 0;
                     goto flag1;
                     // 返回主菜单界面
                 }
             }
         }
-        drawGrid();
+        drawGrid(Theme);
         updateGrid();
+        if (isSame() == 0)
+            mGeneration += 1;
+        if (mGeneration >= 999)
+            mGeneration = 0;
 
         // 计算需要休眠的时间，以保证每秒钟 60 帧
         //DWORD sleepTime
@@ -104,7 +111,7 @@ void GameEasyx::run()
     //closegraph();
 }
 
-void GameEasyx::drawGrid()
+void GameEasyx::drawGrid(int FillTheme)
 {
     // 背景色为白色
     setbkcolor(WHITE);
@@ -154,6 +161,20 @@ void GameEasyx::drawGrid()
     TCHAR cZHUBU[] = _T("逐步");
     outtextxy(295, 620, cZHUBU);
 
+    // 代 
+    // 在这里可能会出现bug，标记一下
+    rectangle(350, 600, 420, 650);
+    char tempDAI[10] = "代: ";
+    sprintf(tempDAI, "代: %d", mGeneration);
+
+    WCHAR wcDAI[20];
+    MultiByteToWideChar(CP_ACP, 0, tempDAI, -1, wcDAI, sizeof(wcDAI));
+
+    TCHAR cDAI[20];
+    _tcscpy_s(cDAI, wcDAI);
+
+    outtextxy(365, 620, cDAI);
+
     // 等待绘图完毕刷新，以免屏幕闪烁
     BeginBatchDraw();
     FlushBatchDraw();
@@ -162,6 +183,13 @@ void GameEasyx::drawGrid()
 // 更新每帧，使用updateGrid暂时存储更改，并在遍历完原矩阵后复制回Grid
 void GameEasyx::updateGrid()
 {
+    for (int i = 0; i < COLS; i++)
+    {
+        for (int j = 0; j < ROWS; j++)
+        {
+            mGridCopy[i][j] = mGrid[i][j];
+        }
+    }
     // 规则
     // 1.如果一个活着的细胞周围（上下左右和四个对角线）有2个或3个活着的细胞，那么它在下一个时刻仍然是活着的；
     // 2.如果一个活着的细胞周围的活着的细胞少于2个，或者超过3个，那么它在下一个时刻会死亡；
@@ -251,6 +279,20 @@ bool GameEasyx::handleInput()
             {
                 printf("逐步\n");
                 updateGrid();
+                if(isSame() == 0)
+                    mGeneration += 1;
+            }
+
+            // 如果用户点击了重置按钮
+            if (msg.x >= 140 && msg.x <= 210 && msg.y >= 600 && msg.y <= 650)
+            {
+                printf("游戏循环重置\n");
+                initNullGrid(); // 或者 initRandomGrid()
+                for (int i = 0; i < COLS; i++)
+                    for (int j = 0; j < ROWS; j++)
+                        mUpdateGrid[i][j] = 0;
+                mGeneration = 0;
+                // 返回主菜单界面
             }
 
             // 判断鼠标是否点击了游戏区域内的方格
@@ -291,4 +333,21 @@ bool GameEasyx::handleInput()
         }
     }
     return 0;
+}
+
+bool GameEasyx::isSame()
+{
+    for (int i = 0; i < COLS; i++)
+    {
+        for (int j = 0; j < ROWS; j++)
+        {
+            if (mUpdateGrid[i][j] == mGridCopy[i][j])
+                continue;
+            else
+            {
+                return 0;// 不相等
+            }
+        }
+    }
+    return 1;
 }
