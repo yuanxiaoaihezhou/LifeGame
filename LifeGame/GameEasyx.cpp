@@ -24,7 +24,7 @@ GameEasyx::GameEasyx() {
     }
 
     loadimage(&imgOTTO, _T("res\\otto.jpg"));
-    loadimage(&imgAVA, _T("res\\otto.jpg"));
+    loadimage(&imgAVA, _T("res\\DATOU.png"));
 
     // ³õÊ¼»¯Íø¸ñ
     initNullGrid();
