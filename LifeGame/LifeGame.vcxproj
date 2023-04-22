@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameEasyx.cpp" />
     <ClCompile Include="main_sdl.cpp" />
     <ClCompile Include="main_easyx.cpp" />
   </ItemGroup>
