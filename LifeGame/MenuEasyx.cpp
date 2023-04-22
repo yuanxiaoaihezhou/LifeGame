@@ -11,7 +11,7 @@ MenuEasyx::MenuEasyx()
 
 void MenuEasyx::drawMenu()
 {
-    initgraph(WINDOW_WIDTH, WINDOW_HEIGHT, EX_SHOWCONSOLE);
+    initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
     setbkcolor(WHITE);
     cleardevice();
 
@@ -61,6 +61,11 @@ void MenuEasyx::run()
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 200 && msg.y <= 250)
                 {
                     mStartGame = true;
+                    GameEasyx* game = new GameEasyx;
+                    game->run();
+                    delete game;
+                    drawMenu();
+                    mStartGame = false;
                 }
 
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 300 && msg.y <= 350)
@@ -87,12 +92,13 @@ void MenuEasyx::run()
             }
         }
 
-        if (mStartGame == true)
+        /*if (mStartGame == true)
         {
             GameEasyx* game = new GameEasyx;
             game->run();
             delete game;
-        }
+            drawMenu();
+        }*/
 
         if (mQuitGame == true)
         {

@@ -1,6 +1,7 @@
 #include "GameEasyx.h"
 #include "GlobalConfig.h"
 #include <graphics.h>
+#include <stdio.h>
 #include <ctime>
 #include <mmsystem.h>
 #pragma comment(lib,"winmm.lib")
@@ -69,6 +70,20 @@ void GameEasyx::run()
         //DWORD deltaTime = currentTime - lastFrameTime;
         //lastFrameTime = currentTime;
 
+        if (MouseHit())
+        {
+            MOUSEMSG msg = GetMouseMsg();
+            if (msg.uMsg == WM_LBUTTONDOWN)
+            {
+                // 如果用户点击了返回按钮
+                if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
+                {
+                    printf("游戏循环返回\n");
+                    // 返回主菜单界面
+                    break;
+                }
+            }
+        }
         drawGrid();
         updateGrid();
 
@@ -99,6 +114,15 @@ void GameEasyx::drawGrid()
             }
         }
     }
+
+    // 返回按钮
+    setlinestyle(PS_SOLID, 1); // 设置线型为实线，线宽1个像素
+    setlinecolor(BLACK);       // 设置线的颜色为黑色
+    settextstyle(16, 0, 0);
+    rectangle(0, 600, 70, 650);
+    TCHAR e[] = _T("确定");
+    outtextxy(15, 620, e);
+
     // 等待绘图完毕刷新，以免屏幕闪烁
     BeginBatchDraw();
     FlushBatchDraw();
