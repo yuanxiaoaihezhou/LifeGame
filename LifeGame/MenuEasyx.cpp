@@ -7,11 +7,13 @@
 MenuEasyx::MenuEasyx()
 {
 	drawMenu();
+    //PlaySound(TEXT("music.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ²¥·ÅÒôÀÖ
 }
 
 void MenuEasyx::drawMenu()
 {
     initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
+    PlaySound(TEXT("music.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ²¥·ÅÒôÀÖ
     setbkcolor(WHITE);
     cleardevice();
 
@@ -61,6 +63,7 @@ void MenuEasyx::run()
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 200 && msg.y <= 250)
                 {
                     mStartGame = true;
+                    PlaySound(NULL, NULL, 0);  // Í£Ö¹ÒôÀÖ²¥·Å
                     GameEasyx* game = new GameEasyx;
                     game->run();
                     delete game;

@@ -69,6 +69,12 @@ void GameEasyx::run()
         //DWORD deltaTime = currentTime - lastFrameTime;
         //lastFrameTime = currentTime;
 
+        if (mHandleRemenu == 1)
+        {
+            mHandleRemenu = 0;
+            break;
+        }
+
         if (MouseHit())
         {
             MOUSEMSG msg = GetMouseMsg();
@@ -138,7 +144,7 @@ void GameEasyx::drawGrid(int FillTheme)
 
     // 返回按钮
     rectangle(0, 600, 70, 650);
-    TCHAR e[] = _T("确定");
+    TCHAR e[] = _T("返回");
     outtextxy(15, 620, e);
 
     // 开始按钮
@@ -292,6 +298,13 @@ bool GameEasyx::handleInput()
                     for (int j = 0; j < ROWS; j++)
                         mUpdateGrid[i][j] = 0;
                 mGeneration = 0;
+            }
+
+            if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
+            {
+                printf("游戏循环返回\n");
+                mHandleRemenu = 1;
+                return 1;
                 // 返回主菜单界面
             }
 

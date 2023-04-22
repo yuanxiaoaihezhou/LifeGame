@@ -11,6 +11,7 @@ private:
 	bool handleInput();
 	bool isSame();// 判断数组前后是否相等 
 
+	bool mHandleRemenu = 0;
 	int mGeneration = 0;
 	int mGrid[COLS][ROWS];
 	int mGridCopy[COLS][ROWS];
