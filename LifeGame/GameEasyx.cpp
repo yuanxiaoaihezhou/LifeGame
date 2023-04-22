@@ -19,6 +19,10 @@ GameEasyx::GameEasyx() {
     {
         PlaySound(TEXT("res\\GameOtto.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     }
+    if (Theme == 2)
+    {
+        PlaySound(TEXT("res\\A-soul.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+    }
 
     // ³õÊ¼»¯Íø¸ñ
     initNullGrid();
@@ -297,6 +301,10 @@ bool GameEasyx::handleInput()
                 if (Theme == 1)
                 {
                     mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
+                }
+                if (Theme == 2)
+                {
+                    mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
                 }
 
                 updateGrid();

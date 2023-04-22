@@ -191,6 +191,10 @@ void MenuEasyx::drawSettings()
     TCHAR c[] = _T("画面质量");
     outtextxy(210, 310, c);
 
+    rectangle(220, 460, /*380*/430, 490);
+    TCHAR AIGUO[] = _T("文字，我只用中国的！");
+    outtextxy(230, 465, AIGUO);
+
     rectangle(200, 400, 400, 450);
     TCHAR d[] = _T("语言");
     outtextxy(210, 410, d);

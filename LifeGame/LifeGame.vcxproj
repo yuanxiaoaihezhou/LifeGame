@@ -144,6 +144,8 @@
     <ClInclude Include="MenuEasyx.h" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="res\A-Soul.wav" />
+    <Media Include="res\AVA.wav" />
     <Media Include="res\DeaufltGame.wav" />
     <Media Include="res\Dududu.wav" />
     <Media Include="res\GameOtto.wav" />
