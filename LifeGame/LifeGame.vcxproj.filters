@@ -18,9 +18,6 @@
     <ClCompile Include="main_easyx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="main_sdl.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="GameEasyx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -81,6 +78,9 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\otto_20.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\testForMemory.jpeg">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
