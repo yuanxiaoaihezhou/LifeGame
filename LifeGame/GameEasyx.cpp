@@ -149,6 +149,11 @@ void GameEasyx::drawGrid()
     TCHAR h[] = _T("随机");
     outtextxy(225, 620, h);
 
+    // 逐步按钮
+    rectangle(280, 600, 350, 650);
+    TCHAR cZHUBU[] = _T("逐步");
+    outtextxy(295, 620, cZHUBU);
+
     // 等待绘图完毕刷新，以免屏幕闪烁
     BeginBatchDraw();
     FlushBatchDraw();
@@ -239,6 +244,13 @@ bool GameEasyx::handleInput()
             {
                 printf("随机\n");
                 initRandomGrid();
+            }
+
+            //逐步
+            if (msg.x >= 280 && msg.x <= 350 && msg.y >= 600 && msg.y <= 650)
+            {
+                printf("逐步\n");
+                updateGrid();
             }
 
             // 判断鼠标是否点击了游戏区域内的方格
