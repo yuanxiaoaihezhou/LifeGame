@@ -8,22 +8,9 @@
 #include <iostream>
 #include <thread>
 
-// 播放声音的函数
-void playSound(const char* soundFile)
-{
-    wchar_t wstr[MAX_PATH] = { 0 };
-    int length = MultiByteToWideChar(CP_UTF8, 0, soundFile, -1, NULL, 0);
-    if (length > 0 && length < MAX_PATH) {
-        MultiByteToWideChar(CP_UTF8, 0, soundFile, -1, wstr, length);
-        PlaySound(wstr, NULL, SND_FILENAME | SND_ASYNC);
-    }
-    else {
-        printf("Invalid sound file name: %s\n", soundFile);
-    }
-}
-
 GameEasyx::GameEasyx() {
     srand(time(NULL));
+
     if (Theme == 0)
     {
         PlaySound(TEXT("res\\DeaufltGame.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
@@ -32,6 +19,7 @@ GameEasyx::GameEasyx() {
     {
         PlaySound(TEXT("res\\GameOtto.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     }
+
     // 初始化网格
     initNullGrid();
     //initRandomGrid();
@@ -91,6 +79,7 @@ void GameEasyx::run()
         //DWORD deltaTime = currentTime - lastFrameTime;
         //lastFrameTime = currentTime;
 
+        //重置mHandleMenu
         if (mHandleRemenu == 1)
         {
             mHandleRemenu = 0;
@@ -131,9 +120,10 @@ void GameEasyx::run()
         if (mGeneration >= 999)
             mGeneration = 0;
 
-        // 计算需要休眠的时间，以保证每秒钟 60 帧
-        //DWORD sleepTime
-       //Sleep(1000/6); //开发时注释
+        if (FPS == 0)
+        {
+            Sleep(1000 / 6);
+        }
     }
 
     //closegraph();
@@ -153,8 +143,25 @@ void GameEasyx::drawGrid(int FillTheme)
             rectangle(i * CELL_SIZE,  j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);// 绘制矩形
             if (mGrid[i][j] == 1) 
             {
-                setfillcolor(0x700B6E); // 南开紫
-                fillrectangle(i * CELL_SIZE,  j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
+                if (Theme == 0)
+                {
+                    setfillcolor(0x700B6E); // 南开紫
+                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
+                }
+                if (Theme == 1)
+                {
+                    IMAGE img; // 声明一个IMAGE对象用于加载图像
+                    loadimage(&img, _T("res\\otto.jpg")); // 加载一张名为test.jpg的图片
+
+                    putimage(i * CELL_SIZE, j * CELL_SIZE, &img);
+                    //setfillcolor(0x700B6E); // 南开紫
+                    //fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
+                }
+                if (Theme == 2)
+                {
+                    setfillcolor(0x700B6E); // 南开紫
+                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
+                }
             }
         }
     }
@@ -309,8 +316,10 @@ bool GameEasyx::handleInput()
 
                 if (Theme == 1)
                 {
+                    mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                     //PlaySound(TEXT("res\\Dududu.wav"), NULL, SND_FILENAME | SND_ASYNC);  // 播放音乐
-                    std::thread* soundThread = new std::thread(playSound, "res\\Dududu.wav");  // 创建一个新线程并播放声音
+                    //std::thread* soundThread = new std::thread(playSound, "res\\Dududu.wav");  // 创建一个新线程并播放声音
+                    //playEffect();
                 }
 
                 updateGrid();

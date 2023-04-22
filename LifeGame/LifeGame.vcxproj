@@ -145,8 +145,13 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\DeaufltGame.wav" />
+    <Media Include="res\Dududu.wav" />
     <Media Include="res\GameOtto.wav" />
     <Media Include="res\OpeingTheme.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\otto.jpg" />
+    <Image Include="res\otto_20.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

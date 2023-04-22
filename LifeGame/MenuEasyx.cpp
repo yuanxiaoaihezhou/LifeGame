@@ -13,8 +13,6 @@ MenuEasyx::MenuEasyx()
 
 void MenuEasyx::drawMenu()
 {
-
-    //initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
     printf("绘制主菜单");
     //PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // 播放音乐
     setbkcolor(WHITE);
@@ -178,11 +176,21 @@ void MenuEasyx::drawSettings()
     outtextxy(210, 210, b);
 
     // 绘制6帧按钮
+    if (mIs6Selected)
+    {
+        setfillcolor(YELLOW);
+        fillrectangle(220, 360, 280, 390);
+    }
     rectangle(220, 360, 280, 390);
     TCHAR sixFrames[] = _T("6帧");
     outtextxy(230, 365, sixFrames);
 
     // 绘制无限制帧按钮
+    if (mIsNoLimitedSelected)
+    {
+        setfillcolor(YELLOW);
+        fillrectangle(290, 360, 350, 390);
+    }
     rectangle(290, 360, 350, 390);
     TCHAR noLimitFrame[] = _T("无限");
     outtextxy(300, 365, noLimitFrame);
@@ -283,6 +291,38 @@ void MenuEasyx::drawSettings()
                     mIsDefaultSelected = false;
                     mIsOTTSelected = false;
                     mIsASoulSelected = true;
+
+                    cleardevice();
+                    drawSettings();
+                }
+
+                // 如果用户点击了 6帧 按钮
+                if (msg.x >= 220 && msg.x <= 280 && msg.y >= 360 && msg.y <= 390)
+                {
+                    printf("6帧\n");
+
+                    // 设置帧率为 6 帧
+                    FPS = 0;
+
+                    // 更新选中状态
+                    mIs6Selected = true;
+                    mIsNoLimitedSelected = false;
+
+                    cleardevice();
+                    drawSettings();
+                }
+
+                // 如果用户点击了 无限制帧 按钮
+                if (msg.x >= 290 && msg.x <= 350 && msg.y >= 360 && msg.y <= 390)
+                {
+                    printf("无限\n");
+
+                    // 设置帧率为无限制
+                    FPS = 1;
+
+                    // 更新选中状态
+                    mIs6Selected = false;
+                    mIsNoLimitedSelected = true;
 
                     cleardevice();
                     drawSettings();
