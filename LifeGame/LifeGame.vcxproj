@@ -135,10 +135,12 @@
     <ClCompile Include="GameEasyx.cpp" />
     <ClCompile Include="main_sdl.cpp" />
     <ClCompile Include="main_easyx.cpp" />
+    <ClCompile Include="MenuEasyx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="GameEasyx.h" />
+    <ClInclude Include="MenuEasyx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

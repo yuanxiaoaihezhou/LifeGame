@@ -53,7 +53,10 @@ void GameEasyx::initRandomGrid()
 void GameEasyx::run()
 {
     //开启了控制台
-    initgraph(WINDOW_WIDTH, WINDOW_HEIGHT, EX_SHOWCONSOLE);
+    //initgraph(WINDOW_WIDTH, WINDOW_HEIGHT, EX_SHOWCONSOLE);
+
+    // 测试帧数控制
+    //DWORD lastFrameTime = timeGetTime(); // 上一帧开始时间
 
     // 测试帧数控制
     //DWORD lastFrameTime = timeGetTime(); // 上一帧开始时间
@@ -74,7 +77,7 @@ void GameEasyx::run()
         Sleep(1000/6);
     }
 
-    closegraph();
+    //closegraph();
 }
 
 void GameEasyx::drawGrid()

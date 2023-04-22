@@ -24,12 +24,18 @@
     <ClCompile Include="GameEasyx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MenuEasyx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEasyx.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GlobalConfig.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuEasyx.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

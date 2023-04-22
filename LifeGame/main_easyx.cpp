@@ -1,12 +1,13 @@
 #include <graphics.h>
 #include <iostream>
+#include "MenuEasyx.h"
 #include "GameEasyx.h"
 #pragma comment(lib,"winmm.lib")
 
 int main()
 {
-	GameEasyx game;
-	game.run();
+	MenuEasyx menu;
+	menu.run();
 
 	return 0;
 }
