@@ -83,6 +83,8 @@ void GameEasyx::drawGrid()
             }
         }
     }
+    // 等待绘图完毕刷新，以免屏幕闪烁
+    BeginBatchDraw();
     FlushBatchDraw();
 }
 
@@ -94,7 +96,7 @@ void GameEasyx::updateGrid()
     // 2.如果一个活着的细胞周围的活着的细胞少于2个，或者超过3个，那么它在下一个时刻会死亡；
     // 3.如果一个死亡的细胞周围恰好有3个活着的细胞，那么它在下一个时刻会复活成为一个活着的细胞。
 
-    //更新Grid
+    //拷贝mUpdateGrid
     for (int i = 0; i < COLS; i++)
         for (int j = 0; j < ROWS; j++)
             mGrid[i][j] = mUpdateGrid[i][j];
