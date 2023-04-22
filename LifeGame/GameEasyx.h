@@ -10,8 +10,6 @@ private:
 	void updateGrid();// ¸üÐÂ»­Ãæ
 	bool handleInput();
 
-	bool mFinishHit = 0;
-
 	int mGrid[COLS][ROWS];
 	int mUpdateGrid[COLS][ROWS];
 public:

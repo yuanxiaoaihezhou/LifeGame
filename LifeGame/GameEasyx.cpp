@@ -3,9 +3,7 @@
 #include <graphics.h>
 #include <stdio.h>
 #include <ctime>
-#include <mmsystem.h>
-#pragma comment(lib,"winmm.lib")
-
+#include <iostream>
 
 GameEasyx::GameEasyx() {
     srand(time(NULL));
@@ -55,6 +53,7 @@ void GameEasyx::run()
     // 测试帧数控制
     //DWORD lastFrameTime = timeGetTime(); // 上一帧开始时间
 
+    flag1:
     while (handleInput() != 1)
     {
         drawGrid();
@@ -79,6 +78,18 @@ void GameEasyx::run()
                     printf("游戏循环返回\n");
                     // 返回主菜单界面
                     break;
+                }
+
+                // 如果用户点击了重置按钮
+                if (msg.x >= 140 && msg.x <= 210 && msg.y >= 600 && msg.y <= 650)
+                {
+                    printf("游戏循环重置\n");
+                    initNullGrid(); // 或者 initRandomGrid()
+                    for (int i = 0; i < COLS; i++)
+                        for (int j = 0; j < ROWS; j++)
+                            mUpdateGrid[i][j] = 0;
+                    goto flag1;
+                    // 返回主菜单界面
                 }
             }
         }
@@ -113,17 +124,30 @@ void GameEasyx::drawGrid()
         }
     }
 
-    // 返回按钮
+
     setlinestyle(PS_SOLID, 1); // 设置线型为实线，线宽1个像素
     setlinecolor(BLACK);       // 设置线的颜色为黑色
     settextstyle(16, 0, 0);
+
+    // 返回按钮
     rectangle(0, 600, 70, 650);
     TCHAR e[] = _T("确定");
     outtextxy(15, 620, e);
 
+    // 开始按钮
     rectangle(70, 600, 140, 650);
     TCHAR f[] = _T("开始");
     outtextxy(85, 620, f);
+
+    // 重置按钮
+    rectangle(140, 600, 210, 650);
+    TCHAR g[] = _T("重置");
+    outtextxy(155, 620, g);
+
+    // 随机按钮
+    rectangle(210, 600, 280, 650);
+    TCHAR h[] = _T("随机");
+    outtextxy(225, 620, h);
 
     // 等待绘图完毕刷新，以免屏幕闪烁
     BeginBatchDraw();
@@ -210,6 +234,13 @@ bool GameEasyx::handleInput()
                 return 1;
             }
 
+            //随机填充
+            if (msg.x >= 210 && msg.x <= 280 && msg.y >= 600 && msg.y <= 650)
+            {
+                printf("随机\n");
+                initRandomGrid();
+            }
+
             // 判断鼠标是否点击了游戏区域内的方格
             for (int i = 0; i < COLS; i++)
             {
@@ -218,7 +249,7 @@ bool GameEasyx::handleInput()
                     if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
                         msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
                     {
-                        printf("1\n");
+                        std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
                         // 设置对应的mGrid[i][j]值为1
                         //setfillcolor(0x700B6E); // 南开紫
                         //fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
@@ -237,7 +268,7 @@ bool GameEasyx::handleInput()
                     if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
                         msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
                     {
-                        printf("1\n");
+                        std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
                         // 设置对应的mGrid[i][j]值为1
                         //setfillcolor(0x700B6E); // 南开紫
                         //fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
