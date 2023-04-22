@@ -62,6 +62,7 @@ void MenuEasyx::run()
                 {
                     mStartGame = true;
                 }
+
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 300 && msg.y <= 350)
                 {
                     mConfig = true;
@@ -69,6 +70,16 @@ void MenuEasyx::run()
                     printf("进入设置页面\n"); // 添加调试输出
                     drawSettings();
                 }
+
+                // 如果用户点击了开发者信息按钮
+                if (msg.x >= 200 && msg.x <= 400 && msg.y >= 400 && msg.y <= 450)
+                {
+                    mDevelopInfo = true;
+                    cleardevice();
+                    printf("进入开发者信息页面\n"); // 添加调试输出
+                    drawDeveloperInfo();
+                }
+
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 500 && msg.y <= 550)
                 {
                     mQuitGame = true;
@@ -153,6 +164,58 @@ void MenuEasyx::drawSettings()
                 {
                     // 返回主菜单界面
                     mConfig = false;
+                    drawMenu();
+                    return;
+                }
+            }
+        }
+    }
+}
+
+void MenuEasyx::drawDeveloperInfo()
+{
+    setbkcolor(WHITE);
+    cleardevice();
+
+    // 绘制开发者信息页面
+    settextstyle(40, 0, 0);
+    settextcolor(BLACK);
+    TCHAR a[] = _T("开发者信息");
+    outtextxy(150, 100, a);
+
+    settextstyle(20, 0, 0);
+    TCHAR b[] = _T("开发者：nad_iz");
+    outtextxy(220, 200, b);
+
+    TCHAR c[] = _T("发布日期：2023年5月");
+    outtextxy(220, 250, c);
+
+    TCHAR d[] = _T("联系方式：2211133@mail.nankai.edu.cn");
+    outtextxy(220, 300, d);
+
+    // 添加返回按钮
+    settextstyle(16, 0, 0);
+    rectangle(200, 500, 400, 530);
+    TCHAR e[] = _T("返回");
+    outtextxy(280, 505, e);
+
+    // 刷新屏幕
+    BeginBatchDraw();
+    FlushBatchDraw();
+
+    // 等待用户交互
+    while (1)
+    {
+        if (MouseHit())
+        {
+            MOUSEMSG msg = GetMouseMsg();
+            if (msg.uMsg == WM_LBUTTONDOWN)
+            {
+                // 如果用户点击了返回按钮
+                if (msg.x >= 200 && msg.x <= 400 && msg.y >= 500 && msg.y <= 530)
+                {
+                    // 返回主菜单界面
+                    mDevelopInfo = false;
                     drawMenu();
                     return;
                 }

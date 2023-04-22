@@ -8,6 +8,7 @@ private:
 	bool mQuitGame = 0;
 	void drawMenu();
 	void drawSettings();
+	void drawDeveloperInfo();
 public:
 	void run();
 	MenuEasyx();
