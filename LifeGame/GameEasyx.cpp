@@ -22,7 +22,6 @@ GameEasyx::GameEasyx() {
 
     // 初始化网格
     initNullGrid();
-    //initRandomGrid();
 }
 
 void GameEasyx::initNullGrid()
@@ -56,15 +55,6 @@ void GameEasyx::initRandomGrid()
 
 void GameEasyx::run()
 {
-    //开启了控制台
-    //initgraph(WINDOW_WIDTH, WINDOW_HEIGHT, EX_SHOWCONSOLE);
-
-    // 测试帧数控制
-    //DWORD lastFrameTime = timeGetTime(); // 上一帧开始时间
-
-    // 测试帧数控制
-    //DWORD lastFrameTime = timeGetTime(); // 上一帧开始时间
-
     flag1:
     while (handleInput() != 1)
     {
@@ -72,13 +62,8 @@ void GameEasyx::run()
     }
 
     //游戏主循环
-    while (true)// 未来加入返回按钮
+    while (true)
     {
-        // 计算时间差，以便限制帧率
-        //DWORD currentTime = timeGetTime();
-        //DWORD deltaTime = currentTime - lastFrameTime;
-        //lastFrameTime = currentTime;
-
         //重置mHandleMenu
         if (mHandleRemenu == 1)
         {
@@ -125,8 +110,6 @@ void GameEasyx::run()
             Sleep(1000 / 6);
         }
     }
-
-    //closegraph();
 }
 
 void GameEasyx::drawGrid(int FillTheme)
@@ -152,10 +135,7 @@ void GameEasyx::drawGrid(int FillTheme)
                 {
                     IMAGE img; // 声明一个IMAGE对象用于加载图像
                     loadimage(&img, _T("res\\otto.jpg")); // 加载一张名为test.jpg的图片
-
                     putimage(i * CELL_SIZE, j * CELL_SIZE, &img);
-                    //setfillcolor(0x700B6E); // 南开紫
-                    //fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
                 }
                 if (Theme == 2)
                 {
@@ -317,9 +297,6 @@ bool GameEasyx::handleInput()
                 if (Theme == 1)
                 {
                     mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
-                    //PlaySound(TEXT("res\\Dududu.wav"), NULL, SND_FILENAME | SND_ASYNC);  // 播放音乐
-                    //std::thread* soundThread = new std::thread(playSound, "res\\Dududu.wav");  // 创建一个新线程并播放声音
-                    //playEffect();
                 }
 
                 updateGrid();
@@ -338,12 +315,12 @@ bool GameEasyx::handleInput()
                 mGeneration = 0;
             }
 
+            //如果用户点击了返回按钮
             if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
             {
                 printf("游戏循环返回\n");
                 mHandleRemenu = 1;
                 return 1;
-                // 返回主菜单界面
             }
 
             // 判断鼠标是否点击了游戏区域内的方格
@@ -356,8 +333,6 @@ bool GameEasyx::handleInput()
                     {
                         std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
                         // 设置对应的mGrid[i][j]值为1
-                        //setfillcolor(0x700B6E); // 南开紫
-                        //fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
                         mGrid[i][j] = 1;
                     }
                 }
@@ -374,9 +349,7 @@ bool GameEasyx::handleInput()
                         msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
                     {
                         std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
-                        // 设置对应的mGrid[i][j]值为1
-                        //setfillcolor(0x700B6E); // 南开紫
-                        //fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
+                        // 设置对应的mGrid[i][j]值为0
                         mGrid[i][j] = 0;
                     }
                 }

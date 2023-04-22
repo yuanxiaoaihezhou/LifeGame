@@ -14,18 +14,16 @@ MenuEasyx::MenuEasyx()
 void MenuEasyx::drawMenu()
 {
     printf("绘制主菜单");
-    //PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // 播放音乐
     setbkcolor(WHITE);
     cleardevice();
 
     // 绘制菜单
-
     setlinestyle(PS_SOLID, 1); // 设置线型为实线，线宽1个像素
     setlinecolor(BLACK);       // 设置线的颜色为黑色
 
     settextstyle(40, 0, 0);
     settextcolor(BLACK);
-    TCHAR a[] = _T("Game Title");
+    TCHAR a[] = _T("Life Game");
     outtextxy(200, 100, a);
 
     settextstyle(20, 0, 0);
@@ -54,9 +52,9 @@ void MenuEasyx::run()
 {
     printf("主界面运行\n");
     FlushMouseMsgBuffer();
+
     while (!mStartGame && !mConfig && !mDevelopInfo && !mQuitGame)
     {
-        printf("进入主界面鼠标检测循环\n");
         // 检测鼠标事件
         if (MouseHit())
         {
@@ -96,21 +94,9 @@ void MenuEasyx::run()
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 500 && msg.y <= 550)
                 {
                     mQuitGame = true;
+                    closegraph();
                 }
             }
-        }
-
-        /*if (mStartGame == true)
-        {
-            GameEasyx* game = new GameEasyx;
-            game->run();
-            delete game;
-            drawMenu();
-        }*/
-
-        if (mQuitGame == true)
-        {
-            closegraph();
         }
     }
 }
@@ -132,11 +118,13 @@ void MenuEasyx::drawSettings()
 
     // 绘制默认按钮
     settextstyle(16, 0, 0);
-    if (mIsDefaultSelected) {
+    if (mIsDefaultSelected) 
+    {
         setfillcolor(YELLOW); // 如果默认按钮被选中，填充黄色
         fillrectangle(220, 260, 280, 290);
     }
-    else {
+    else
+    {
         setfillcolor(WHITE); // 否则填充白色
         fillrectangle(220, 260, 280, 290);
     }
@@ -145,11 +133,13 @@ void MenuEasyx::drawSettings()
     outtextxy(230, 265, defaultTheme);
 
     // 绘制OTTO按钮
-    if (mIsOTTSelected) {
+    if (mIsOTTSelected) 
+    {
         setfillcolor(YELLOW); // 如果 OTTO 按钮被选中，填充黄色
         fillrectangle(290, 260, 350, 290);
     }
-    else {
+    else 
+    {
         setfillcolor(WHITE); // 否则填充白色
         fillrectangle(290, 260, 350, 290);
     }
@@ -158,11 +148,13 @@ void MenuEasyx::drawSettings()
     outtextxy(300, 265, OTTO);
 
     // 绘制A-Soul按钮
-    if (mIsASoulSelected) {
+    if (mIsASoulSelected) 
+    {
         setfillcolor(YELLOW); // 如果 A-Soul 按钮被选中，填充黄色
         fillrectangle(360, 260, 420, 290);
     }
-    else {
+    else 
+    {
         setfillcolor(WHITE); // 否则填充白色
         fillrectangle(360, 260, 420, 290);
     }
@@ -203,9 +195,8 @@ void MenuEasyx::drawSettings()
     TCHAR d[] = _T("语言");
     outtextxy(210, 410, d);
 
-    // 添加其他设置选项的绘制代码
-
     // 添加确定和取消按钮
+    // 其实这俩一样
     settextstyle(16, 0, 0);
     rectangle(200, 500, 250, 530);
     TCHAR e[] = _T("确定");
