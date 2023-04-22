@@ -143,8 +143,9 @@ void GameEasyx::drawGrid(int FillTheme)
                 }
                 if (Theme == 2)
                 {
-                    setfillcolor(0x700B6E); // 南开紫
-                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
+                    IMAGE img; // 声明一个IMAGE对象用于加载图像
+                    loadimage(&img, _T("res\\DATOU.png")); // 加载一张名为test.jpg的图片
+                    putimage(i * CELL_SIZE, j * CELL_SIZE, &img);
                 }
             }
         }
@@ -339,6 +340,14 @@ bool GameEasyx::handleInput()
                     if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
                         msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
                     {
+                        if (Theme == 1)
+                        {
+                            mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
+                        }
+                        if (Theme == 2)
+                        {
+                            mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
+                        }
                         std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
                         // 设置对应的mGrid[i][j]值为1
                         mGrid[i][j] = 1;
@@ -356,6 +365,14 @@ bool GameEasyx::handleInput()
                     if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
                         msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
                     {
+                        if (Theme == 1)
+                        {
+                            mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
+                        }
+                        if (Theme == 2)
+                        {
+                            mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
+                        }
                         std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
                         // 设置对应的mGrid[i][j]值为0
                         mGrid[i][j] = 0;

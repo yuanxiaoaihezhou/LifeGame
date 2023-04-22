@@ -152,6 +152,8 @@
     <Media Include="res\OpeingTheme.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\DATOU.png" />
+    <Image Include="res\DATOU_yuan.png" />
     <Image Include="res\otto.jpg" />
     <Image Include="res\otto_20.jpg" />
   </ItemGroup>
