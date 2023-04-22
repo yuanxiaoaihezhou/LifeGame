@@ -13,7 +13,7 @@ MenuEasyx::MenuEasyx()
 void MenuEasyx::drawMenu()
 {
     initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
-    PlaySound(TEXT("music.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // 播放音乐
+    PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // 播放音乐
     setbkcolor(WHITE);
     cleardevice();
 
@@ -124,7 +124,7 @@ void MenuEasyx::drawSettings()
 
     settextstyle(20, 0, 0);
     rectangle(200, 200, 400, 250);
-    TCHAR b[] = _T("音量");
+    TCHAR b[] = _T("风格");
     outtextxy(210, 210, b);
 
     rectangle(200, 300, 400, 350);

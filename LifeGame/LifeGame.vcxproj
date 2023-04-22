@@ -143,6 +143,10 @@
     <ClInclude Include="GameEasyx.h" />
     <ClInclude Include="MenuEasyx.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\OpeingTheme.mp3" />
+    <Media Include="res\OpeingTheme.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
