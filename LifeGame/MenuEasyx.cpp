@@ -8,7 +8,7 @@ MenuEasyx::MenuEasyx()
 {
     initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
 	drawMenu();
-    //PlaySound(TEXT("music.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ≤•∑≈“Ù¿÷
+    PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ≤•∑≈“Ù¿÷
 }
 
 void MenuEasyx::drawMenu()
@@ -16,7 +16,7 @@ void MenuEasyx::drawMenu()
 
     //initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE);
     printf("ªÊ÷∆÷˜≤Àµ•");
-    PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ≤•∑≈“Ù¿÷
+    //PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ≤•∑≈“Ù¿÷
     setbkcolor(WHITE);
     cleardevice();
 
@@ -74,6 +74,7 @@ void MenuEasyx::run()
                     game->run();
                     delete game;
                     drawMenu();
+                    PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ≤•∑≈“Ù¿÷
                     mStartGame = false;
                 }
 

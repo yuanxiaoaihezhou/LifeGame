@@ -6,6 +6,21 @@
 #include <string.h>
 #include <ctime>
 #include <iostream>
+#include <thread>
+
+// 播放声音的函数
+void playSound(const char* soundFile)
+{
+    wchar_t wstr[MAX_PATH] = { 0 };
+    int length = MultiByteToWideChar(CP_UTF8, 0, soundFile, -1, NULL, 0);
+    if (length > 0 && length < MAX_PATH) {
+        MultiByteToWideChar(CP_UTF8, 0, soundFile, -1, wstr, length);
+        PlaySound(wstr, NULL, SND_FILENAME | SND_ASYNC);
+    }
+    else {
+        printf("Invalid sound file name: %s\n", soundFile);
+    }
+}
 
 GameEasyx::GameEasyx() {
     srand(time(NULL));
@@ -291,6 +306,13 @@ bool GameEasyx::handleInput()
             if (msg.x >= 280 && msg.x <= 350 && msg.y >= 600 && msg.y <= 650)
             {
                 printf("逐步\n");
+
+                if (Theme == 1)
+                {
+                    //PlaySound(TEXT("res\\Dududu.wav"), NULL, SND_FILENAME | SND_ASYNC);  // 播放音乐
+                    std::thread* soundThread = new std::thread(playSound, "res\\Dududu.wav");  // 创建一个新线程并播放声音
+                }
+
                 updateGrid();
                 if(isSame() == 0)
                     mGeneration += 1;
