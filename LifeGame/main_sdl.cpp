@@ -1,3 +1,4 @@
+/*
 #include <SDL.h>
 
 int main1(int argc, char* argv[])
@@ -24,3 +25,4 @@ int main1(int argc, char* argv[])
     SDL_Quit();
     return 0;
 }
+*/

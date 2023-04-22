@@ -6,7 +6,6 @@
 #include <string.h>
 #include <ctime>
 #include <iostream>
-#include <thread>
 
 GameEasyx::GameEasyx() {
     srand(time(NULL));
@@ -137,8 +136,11 @@ void GameEasyx::drawGrid(int FillTheme)
                 }
                 if (Theme == 1)
                 {
+                    // IMAGE imgForMemoryTest; // 测试用
+                    //loadimage(&imgForMemoryTest, _T("res\\testForMemory.jpeg")); // 测试用
+
                     IMAGE img; // 声明一个IMAGE对象用于加载图像
-                    loadimage(&img, _T("res\\otto.jpg")); // 加载一张名为test.jpg的图片
+                    loadimage(&img, _T("res\\otto.jpg"));
                     putimage(i * CELL_SIZE, j * CELL_SIZE, &img);
                 }
                 if (Theme == 2)
@@ -368,10 +370,12 @@ bool GameEasyx::handleInput()
                     {
                         if (Theme == 1)
                         {
+                            Sleep(100); // 解决音频重叠，待测试
                             mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                         }
                         if (Theme == 2)
                         {
+                            Sleep(100);//解决音频重叠，待测试
                             mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
                         }
                         std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;

@@ -161,6 +161,7 @@
     <Image Include="res\DATOU_yuan.png" />
     <Image Include="res\otto.jpg" />
     <Image Include="res\otto_20.jpg" />
+    <Image Include="res\testForMemory.jpeg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
