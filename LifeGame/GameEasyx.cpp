@@ -59,7 +59,7 @@ void GameEasyx::initRandomGrid()
 
 void GameEasyx::run()
 {
-    flag1:
+flag1:
     while (handleInput() != 1)
     {
         drawGrid(Theme);
@@ -83,7 +83,7 @@ void GameEasyx::run()
                 // 如果用户点击了返回按钮
                 if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
                 {
-                    printf("游戏循环返回\n");
+                    printf("返回按钮点下\n");
                     // 返回主菜单界面
                     break;
                 }
@@ -284,6 +284,7 @@ bool GameEasyx::handleInput()
             {
                 printf("游戏循环开始\n");
                 // 返回主菜单界面
+                mStartGame = 1;
                 return 1;
             }
 
