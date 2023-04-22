@@ -8,10 +8,29 @@ GameEasyx::GameEasyx() {
     srand(time(NULL));
 
     // ³õÊ¼»¯Íø¸ñ
-    initGrid();
+    initNullGrid();
+    initRandomGrid();
 }
 
-void GameEasyx::initGrid()
+void GameEasyx::initNullGrid()
+{
+    for (int i = 0; i < COLS; i++)
+    {
+        for (int j = 0; j < ROWS; j++)
+        {
+            if (rand() % 3 == 0)
+            {
+                mGrid[i][j] = 1;
+            }
+            else
+            {
+                mGrid[i][j] = 0;
+            }
+        }
+    }
+}
+
+void GameEasyx::initRandomGrid()
 {
     for (int i = 0; i < COLS; i++)
     {

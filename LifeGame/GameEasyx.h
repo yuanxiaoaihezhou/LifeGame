@@ -4,7 +4,8 @@
 class GameEasyx 
 {
 private:
-	void initGrid();// 初始化矩阵
+	void initNullGrid();// 初始化0矩阵
+	void initRandomGrid();// 初始化随机矩阵
 	void drawGrid();// 更新矩阵数组
 	void updateGrid();// 更新画面
 
