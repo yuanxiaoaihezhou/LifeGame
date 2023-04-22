@@ -14,6 +14,8 @@ private:
 	bool mIs6Selected = 0;
 	bool mIsNoLimitedSelected = 1;
 
+	bool mAiGuo = 0;
+
 	void drawMenu();
 	void drawSettings();
 	void drawDeveloperInfo();

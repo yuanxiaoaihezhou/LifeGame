@@ -66,6 +66,9 @@
     <Media Include="res\OpeingTheme.wav">
       <Filter>资源文件</Filter>
     </Media>
+    <Media Include="res\HANJIAN.wav">
+      <Filter>资源文件</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\DATOU.png">
@@ -81,6 +84,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\testForMemory.jpeg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\HANJIAN.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\HANJIAN_yuan.jpg">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

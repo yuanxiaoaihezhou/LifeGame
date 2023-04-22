@@ -158,11 +158,14 @@
     <Media Include="res\DeaufltGame.wav" />
     <Media Include="res\Dududu.wav" />
     <Media Include="res\GameOtto.wav" />
+    <Media Include="res\HANJIAN.wav" />
     <Media Include="res\OpeingTheme.wav" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\DATOU.png" />
     <Image Include="res\DATOU_yuan.png" />
+    <Image Include="res\HANJIAN.png" />
+    <Image Include="res\HANJIAN_yuan.jpg" />
     <Image Include="res\otto.jpg" />
     <Image Include="res\otto_20.jpg" />
     <Image Include="res\testForMemory.jpeg" />

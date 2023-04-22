@@ -196,6 +196,14 @@ void MenuEasyx::drawSettings()
     TCHAR AIGUO[] = _T("文字，我只用中国的！");
     outtextxy(230, 465, AIGUO);
 
+    if (mAiGuo)
+    {
+        IMAGE AIGUO;
+        loadimage(&AIGUO, _T("res\\HANJIAN.png"));
+        //loadimage(&AIGUO, _T("res\\testForMemory.jpeg")); // 测试用
+        putimage(440, 400, &AIGUO);
+    }
+
     rectangle(200, 400, 400, 450);
     TCHAR d[] = _T("语言");
     outtextxy(210, 410, d);
@@ -228,6 +236,7 @@ void MenuEasyx::drawSettings()
                 {
                     // 返回主菜单界面
                     mSettings = false;
+                    mAiGuo = false;
                     drawMenu();
                     break;
                 }
@@ -236,6 +245,7 @@ void MenuEasyx::drawSettings()
                 if (msg.x >= 350 && msg.x <= 400 && msg.y >= 500 && msg.y <= 530)
                 {
                     // 返回主菜单界面
+                    mAiGuo = false;
                     mSettings = false;
                     drawMenu();
                     return;
@@ -319,6 +329,21 @@ void MenuEasyx::drawSettings()
                     // 更新选中状态
                     mIs6Selected = false;
                     mIsNoLimitedSelected = true;
+
+                    cleardevice();
+                    drawSettings();
+                }
+
+                // 如果用户点击了 爱国 按钮
+                if (msg.x >= 220 && msg.x <= 430 && msg.y >= 460 && msg.y <= 490)
+                {
+                    //rectangle(220, 460, /*380*/430, 490);
+                    printf("爱国\n");
+
+                    // 更新选中状态
+                    mAiGuo = true;
+
+                    mciSendString(_T("play res\\HANJIAN.wav"), NULL, 0, NULL);
 
                     cleardevice();
                     drawSettings();
