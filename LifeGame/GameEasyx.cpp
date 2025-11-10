@@ -4,6 +4,7 @@
 #include <graphics.h>
 #include <stdio.h>
 #include <string.h>
+#include <cstring>
 #include <ctime>
 #include <iostream>
 
@@ -61,70 +62,78 @@ void GameEasyx::initRandomGrid()
 
 void GameEasyx::run()
 {
-flag1:
-    while (handleInput() != 1)
+    // 初始输入循环
+    bool needRestart = true;
+    while (needRestart)
     {
-        drawGrid(Theme);
-    }
-
-    // 游戏主循环
-    while (1)
-    {
-        // 减少 Sleep 的时间
-        Sleep(1000 / 60); // 将帧率提高到 60 FPS
-
-        // 重置 mHandleMenu
-        if (mHandleRemenu == 1)
+        needRestart = false;
+        
+        // 等待用户设置初始状态
+        while (handleInput() != 1)
         {
-            mHandleRemenu = 0;
-            break;
+            drawGrid(Theme);
         }
 
-        // 更频繁地检查鼠标事件
-        if (MouseHit())
+        // 游戏主循环
+        while (true)
         {
-            MOUSEMSG msg = GetMouseMsg();
-            if (msg.uMsg == WM_LBUTTONDOWN)
+            // 根据 FPS 设置 Sleep 时间
+            if (FPS == 0)
             {
-                // 如果用户点击了返回按钮
-                if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
-                {
-                    printf("返回按钮点下\n");
-                    // 返回主菜单界面
-                    break;
-                }
+                Sleep(1000 / FPS_LOW);
+            }
+            else
+            {
+                Sleep(1000 / FPS_HIGH);
+            }
 
-                // 如果用户点击了重置按钮
-                if (msg.x >= 140 && msg.x <= 210 && msg.y >= 600 && msg.y <= 650)
+            // 重置 mHandleMenu
+            if (mHandleRemenu == 1)
+            {
+                mHandleRemenu = 0;
+                break;
+            }
+
+            // 更频繁地检查鼠标事件
+            if (MouseHit())
+            {
+                MOUSEMSG msg = GetMouseMsg();
+                if (msg.uMsg == WM_LBUTTONDOWN)
                 {
-                    printf("游戏循环重置\n");
-                    initNullGrid(); // 或者 initRandomGrid()
-                    for (int i = 0; i < COLS; i++)
-                        for (int j = 0; j < ROWS; j++)
-                            mUpdateGrid[i][j] = 0;
-                    mGeneration = 0;
-                    goto flag1;
-                    // 返回主菜单界面
+                    // 如果用户点击了返回按钮
+                    if (msg.x >= BTN_BACK_X1 && msg.x <= BTN_BACK_X2 && 
+                        msg.y >= BUTTON_Y_START && msg.y <= BUTTON_Y_END)
+                    {
+                        printf("返回按钮点下\n");
+                        // 返回主菜单界面
+                        return;
+                    }
+
+                    // 如果用户点击了重置按钮
+                    if (msg.x >= BTN_RESET_X1 && msg.x <= BTN_RESET_X2 && 
+                        msg.y >= BUTTON_Y_START && msg.y <= BUTTON_Y_END)
+                    {
+                        printf("游戏循环重置\n");
+                        initNullGrid();
+                        memset(mUpdateGrid, 0, sizeof(mUpdateGrid));
+                        mGeneration = 0;
+                        needRestart = true;
+                        break;
+                    }
                 }
             }
-        }
 
-        // 绘制网格
-        drawGrid(Theme);
+            // 绘制网格
+            drawGrid(Theme);
 
-        // 更新网格
-        updateGrid();
+            // 更新网格
+            updateGrid();
 
-        // 更新代数
-        if (isSame() == 0)
-            mGeneration += 1;
-        if (mGeneration >= 999)
-            mGeneration = 0;
-
-        // 根据 FPS 设置 Sleep 时间
-        if (FPS == 0)
-        {
-            Sleep(1000 / 6);
+            // 更新代数
+            if (!isSame())
+                mGeneration += 1;
+            if (mGeneration >= MAX_GENERATION)
+                mGeneration = 0;
         }
     }
 }
@@ -167,32 +176,32 @@ void GameEasyx::drawGrid(int FillTheme)
     settextstyle(16, 0, 0);
 
     // 返回按钮
-    rectangle(0, 600, 70, 650);
+    rectangle(BTN_BACK_X1, BUTTON_Y_START, BTN_BACK_X2, BUTTON_Y_END);
     TCHAR e[] = _T("返回");
     outtextxy(15, 620, e);
 
     // 开始按钮
-    rectangle(70, 600, 140, 650);
+    rectangle(BTN_START_X1, BUTTON_Y_START, BTN_START_X2, BUTTON_Y_END);
     TCHAR f[] = _T("开始");
     outtextxy(85, 620, f);
 
     // 重置按钮
-    rectangle(140, 600, 210, 650);
+    rectangle(BTN_RESET_X1, BUTTON_Y_START, BTN_RESET_X2, BUTTON_Y_END);
     TCHAR g[] = _T("重置");
     outtextxy(155, 620, g);
 
     // 随机按钮
-    rectangle(210, 600, 280, 650);
+    rectangle(BTN_RANDOM_X1, BUTTON_Y_START, BTN_RANDOM_X2, BUTTON_Y_END);
     TCHAR h[] = _T("随机");
     outtextxy(225, 620, h);
 
     // 逐步按钮
-    rectangle(280, 600, 350, 650);
+    rectangle(BTN_STEP_X1, BUTTON_Y_START, BTN_STEP_X2, BUTTON_Y_END);
     TCHAR cZHUBU[] = _T("逐步");
     outtextxy(295, 620, cZHUBU);
 
     // 代 
-    rectangle(350, 600, 420, 650);
+    rectangle(BTN_GEN_X1, BUTTON_Y_START, BTN_GEN_X2, BUTTON_Y_END);
     char tempDAI[10] = "代: ";
     sprintf(tempDAI, "代: %d", mGeneration);
 
@@ -245,7 +254,8 @@ bool GameEasyx::handleInput()
         if (msg.uMsg == WM_LBUTTONDOWN)
         {
             //开始判断
-            if (msg.x >= 70 && msg.x <= 140 && msg.y >= 600 && msg.y <= 650)
+            if (msg.x >= BTN_START_X1 && msg.x <= BTN_START_X2 && 
+                msg.y >= BUTTON_Y_START && msg.y <= BUTTON_Y_END)
             {
                 printf("游戏循环开始\n");
                 // 返回主菜单界面
@@ -254,14 +264,16 @@ bool GameEasyx::handleInput()
             }
 
             //随机填充
-            if (msg.x >= 210 && msg.x <= 280 && msg.y >= 600 && msg.y <= 650)
+            if (msg.x >= BTN_RANDOM_X1 && msg.x <= BTN_RANDOM_X2 && 
+                msg.y >= BUTTON_Y_START && msg.y <= BUTTON_Y_END)
             {
                 printf("随机\n");
                 initRandomGrid();
             }
 
             //逐步
-            if (msg.x >= 280 && msg.x <= 350 && msg.y >= 600 && msg.y <= 650)
+            if (msg.x >= BTN_STEP_X1 && msg.x <= BTN_STEP_X2 && 
+                msg.y >= BUTTON_Y_START && msg.y <= BUTTON_Y_END)
             {
                 printf("逐步\n");
 
@@ -269,83 +281,73 @@ bool GameEasyx::handleInput()
                 {
                     mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                 }
-                if (Theme == 2)
+                else if (Theme == 2)
                 {
                     mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
                 }
 
                 updateGrid();
-                if(isSame() == 0)
+                if(!isSame())
                     mGeneration += 1;
             }
 
             // 如果用户点击了重置按钮
-            if (msg.x >= 140 && msg.x <= 210 && msg.y >= 600 && msg.y <= 650)
+            if (msg.x >= BTN_RESET_X1 && msg.x <= BTN_RESET_X2 && 
+                msg.y >= BUTTON_Y_START && msg.y <= BUTTON_Y_END)
             {
                 printf("游戏循环重置\n");
-                initNullGrid(); // 或者 initRandomGrid()
-                for (int i = 0; i < COLS; i++)
-                    for (int j = 0; j < ROWS; j++)
-                        mUpdateGrid[i][j] = 0;
+                initNullGrid();
+                memset(mUpdateGrid, 0, sizeof(mUpdateGrid));
                 mGeneration = 0;
             }
 
             //如果用户点击了返回按钮
-            if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
+            if (msg.x >= BTN_BACK_X1 && msg.x <= BTN_BACK_X2 && 
+                msg.y >= BUTTON_Y_START && msg.y <= BUTTON_Y_END)
             {
                 printf("游戏循环返回\n");
                 mHandleRemenu = 1;
                 return 1;
             }
 
-            // 判断鼠标是否点击了游戏区域内的方格
-            for (int i = 0; i < COLS; i++)
+            // 判断鼠标是否点击了游戏区域内的方格 - 优化：直接计算坐标
+            int i = msg.x / CELL_SIZE;
+            int j = msg.y / CELL_SIZE;
+            
+            if (i >= 0 && i < COLS && j >= 0 && j < ROWS)
             {
-                for (int j = 0; j < ROWS; j++)
+                if (Theme == 1)
                 {
-                    if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
-                        msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
-                    {
-                        if (Theme == 1)
-                        {
-                            mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
-                        }
-                        if (Theme == 2)
-                        {
-                            mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
-                        }
-                        std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
-                        // 设置对应的mGrid[i][j]值为1
-                        mGrid[i][j] = 1;
-                    }
+                    mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                 }
+                else if (Theme == 2)
+                {
+                    mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
+                }
+                std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
+                // 设置对应的mGrid[i][j]值为1
+                mGrid[i][j] = 1;
             }
         }
-        if (msg.uMsg == WM_RBUTTONDOWN)
+        else if (msg.uMsg == WM_RBUTTONDOWN)
         {
-            // 判断鼠标是否点击了游戏区域内的方格
-            for (int i = 0; i < COLS; i++)
+            // 判断鼠标是否点击了游戏区域内的方格 - 优化：直接计算坐标
+            int i = msg.x / CELL_SIZE;
+            int j = msg.y / CELL_SIZE;
+            
+            if (i >= 0 && i < COLS && j >= 0 && j < ROWS)
             {
-                for (int j = 0; j < ROWS; j++)
+                if (Theme == 1)
                 {
-                    if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
-                        msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
-                    {
-                        if (Theme == 1)
-                        {
-                            Sleep(100); // 解决音频重叠，待测试
-                            mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
-                        }
-                        if (Theme == 2)
-                        {
-                            Sleep(100);//解决音频重叠，待测试
-                            mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
-                        }
-                        std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
-                        // 设置对应的mGrid[i][j]值为0
-                        mGrid[i][j] = 0;
-                    }
+                    mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                 }
+                else if (Theme == 2)
+                {
+                    mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
+                }
+                std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
+                // 设置对应的mGrid[i][j]值为0
+                mGrid[i][j] = 0;
             }
         }
     }
@@ -354,17 +356,6 @@ bool GameEasyx::handleInput()
 
 bool GameEasyx::isSame() const
 {
-    for (int i = 0; i < COLS; i++)
-    {
-        for (int j = 0; j < ROWS; j++)
-        {
-            if (mUpdateGrid[i][j] == mGridCopy[i][j])
-                continue;
-            else
-            {
-                return 0;// 不相等
-            }
-        }
-    }
-    return 1;
+    // 使用memcmp更高效地比较两个数组
+    return memcmp(mUpdateGrid, mGridCopy, sizeof(mGrid)) == 0;
 }
