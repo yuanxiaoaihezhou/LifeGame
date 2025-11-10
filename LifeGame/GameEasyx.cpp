@@ -199,7 +199,7 @@ void GameEasyx::drawGrid(int FillTheme)
     sprintf(tempDAI, "代: %d", mGeneration);
 
     WCHAR wcDAI[200];
-    MultiByteToWideChar(CP_ACP, 0, tempDAI, -1, wcDAI, sizeof(wcDAI));
+    MultiByteToWideChar(CP_ACP, 0, tempDAI, -1, wcDAI, 200);
 
     TCHAR cDAI[20];
     _tcscpy_s(cDAI, wcDAI);
