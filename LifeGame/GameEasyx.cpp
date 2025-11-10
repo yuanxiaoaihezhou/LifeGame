@@ -14,11 +14,11 @@ GameEasyx::GameEasyx() {
     {
         PlaySound(TEXT("res\\DeaufltGame.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     }
-    if (Theme == 1)
+    else if (Theme == 1)
     {
         PlaySound(TEXT("res\\GameOtto.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     }
-    if (Theme == 2)
+    else if (Theme == 2)
     {
         PlaySound(TEXT("res\\A-soul.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     }
@@ -156,11 +156,11 @@ void GameEasyx::drawGrid(int FillTheme)
                     setfillcolor(0x700B6E); // �Ͽ���
                     fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // ������
                 }
-                if (Theme == 1)
+                else if (Theme == 1)
                 {
                     putimage(i * CELL_SIZE, j * CELL_SIZE, &imgOTTO);
                 }
-                if (Theme == 2)
+                else if (Theme == 2)
                 {
                     putimage(i * CELL_SIZE, j * CELL_SIZE, &imgAVA);
                 }
@@ -219,15 +219,14 @@ void GameEasyx::updateGrid()
 {
     memcpy(mGridCopy, mGrid, sizeof(mGrid)); // ʹ��memcpy������������forѭ��������mGrid����
 
-    int col, row;
     for (int i = 0; i < COLS; i++)
     {
-        col = (i - 1 + COLS) % COLS;
+        int col = (i - 1 + COLS) % COLS;
         int next_col = (i + 1) % COLS;
 
         for (int j = 0; j < ROWS; j++)
         {
-            row = (j - 1 + ROWS) % ROWS;
+            int row = (j - 1 + ROWS) % ROWS;
             int next_row = (j + 1) % ROWS;
 
             // ������Χϸ������
@@ -275,7 +274,7 @@ bool GameEasyx::handleInput()
                 {
                     mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                 }
-                if (Theme == 2)
+                else if (Theme == 2)
                 {
                     mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
                 }
@@ -313,7 +312,7 @@ bool GameEasyx::handleInput()
                 {
                     mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                 }
-                if (Theme == 2)
+                else if (Theme == 2)
                 {
                     mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
                 }
@@ -333,7 +332,7 @@ bool GameEasyx::handleInput()
                 {
                     mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                 }
-                if (Theme == 2)
+                else if (Theme == 2)
                 {
                     mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
                 }
@@ -352,9 +351,7 @@ bool GameEasyx::isSame() const
     {
         for (int j = 0; j < ROWS; j++)
         {
-            if (mUpdateGrid[i][j] == mGridCopy[i][j])
-                continue;
-            else
+            if (mUpdateGrid[i][j] != mGridCopy[i][j])
             {
                 return 0;// �����
             }
