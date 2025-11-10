@@ -19,6 +19,7 @@ private:
 	void drawMenu();
 	void drawSettings();
 	void drawDeveloperInfo();
+	void drawButton(int x1, int y1, int x2, int y2, const TCHAR* text, int textX, int textY, bool selected = false);
 public:
 	void run();
 	MenuEasyx();

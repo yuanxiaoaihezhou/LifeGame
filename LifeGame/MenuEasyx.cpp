@@ -13,6 +13,22 @@ MenuEasyx::MenuEasyx()
     PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // 播放音乐
 }
 
+void MenuEasyx::drawButton(int x1, int y1, int x2, int y2, const TCHAR* text, int textX, int textY, bool selected)
+{
+    if (selected)
+    {
+        setfillcolor(YELLOW);
+        fillrectangle(x1, y1, x2, y2);
+    }
+    else
+    {
+        setfillcolor(WHITE);
+        fillrectangle(x1, y1, x2, y2);
+    }
+    rectangle(x1, y1, x2, y2);
+    outtextxy(textX, textY, text);
+}
+
 void MenuEasyx::drawMenu()
 {
     printf("绘制主菜单");
@@ -68,9 +84,10 @@ void MenuEasyx::run()
                 {
                     mStartGame = true;
                     PlaySound(NULL, NULL, 0);  // 停止音乐播放
-                    GameEasyx* game = new GameEasyx;
-                    game->run();
-                    delete game;
+                    {
+                        GameEasyx game;
+                        game.run();
+                    }
                     drawMenu();
                     PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // 播放音乐
                     mStartGame = false;
@@ -118,83 +135,28 @@ void MenuEasyx::drawSettings()
     TCHAR a[] = _T("设置");
     outtextxy(200, 100, a);
 
-    // 绘制默认按钮
+    // 绘制主题选择按钮
     settextstyle(16, 0, 0);
-    if (mIsDefaultSelected) 
-    {
-        setfillcolor(YELLOW); // 如果默认按钮被选中，填充黄色
-        fillrectangle(220, 260, 280, 290);
-    }
-    else
-    {
-        setfillcolor(WHITE); // 否则填充白色
-        fillrectangle(220, 260, 280, 290);
-    }
-    rectangle(220, 260, 280, 290);
-    TCHAR defaultTheme[] = _T("默认");
-    outtextxy(230, 265, defaultTheme);
-
-    // 绘制OTTO按钮
-    if (mIsOTTSelected) 
-    {
-        setfillcolor(YELLOW); // 如果 OTTO 按钮被选中，填充黄色
-        fillrectangle(290, 260, 350, 290);
-    }
-    else 
-    {
-        setfillcolor(WHITE); // 否则填充白色
-        fillrectangle(290, 260, 350, 290);
-    }
-    rectangle(290, 260, 350, 290);
-    TCHAR OTTO[] = _T("OTTO");
-    outtextxy(300, 265, OTTO);
-
-
-    // 绘制A-Soul按钮
-    if (mIsASoulSelected) 
-    {
-        setfillcolor(YELLOW); // 如果 A-Soul 按钮被选中，填充黄色
-        fillrectangle(360, 260, 420, 290);
-    }
-    else 
-    {
-        setfillcolor(WHITE); // 否则填充白色
-        fillrectangle(360, 260, 420, 290);
-    }
-    rectangle(360, 260, 420, 290);
-    TCHAR AS[] = _T("A-Soul");
-    outtextxy(370, 265, AS);
+    drawButton(220, 260, 280, 290, _T("默认"), 230, 265, mIsDefaultSelected);
+    drawButton(290, 260, 350, 290, _T("OTTO"), 300, 265, mIsOTTSelected);
+    drawButton(360, 260, 420, 290, _T("A-Soul"), 370, 265, mIsASoulSelected);
 
     settextstyle(20, 0, 0);
     rectangle(200, 200, 400, 250);
     TCHAR b[] = _T("风格");
     outtextxy(210, 210, b);
 
-    // 绘制6帧按钮
-    if (mIs6Selected)
-    {
-        setfillcolor(YELLOW);
-        fillrectangle(220, 360, 280, 390);
-    }
-    rectangle(220, 360, 280, 390);
-    TCHAR sixFrames[] = _T("6帧");
-    outtextxy(230, 365, sixFrames);
+    // 绘制帧率选择按钮
+    settextstyle(16, 0, 0);
+    drawButton(220, 360, 280, 390, _T("6帧"), 230, 365, mIs6Selected);
+    drawButton(290, 360, 350, 390, _T("无限"), 300, 365, mIsNoLimitedSelected);
 
-    // 绘制无限制帧按钮
-    if (mIsNoLimitedSelected)
-    {
-        setfillcolor(YELLOW);
-        fillrectangle(290, 360, 350, 390);
-    }
-    rectangle(290, 360, 350, 390);
-    TCHAR noLimitFrame[] = _T("无限");
-    outtextxy(300, 365, noLimitFrame);
-
+    settextstyle(20, 0, 0);
     rectangle(200, 300, 400, 350);
     TCHAR c[] = _T("画面质量");
     outtextxy(210, 310, c);
 
-    rectangle(220, 460, /*380*/430, 490);
+    rectangle(220, 460, 430, 490);
     TCHAR AIGUO[] = _T("文字，我只用中国的！");
     outtextxy(230, 465, AIGUO);
 
@@ -202,7 +164,6 @@ void MenuEasyx::drawSettings()
     {
         IMAGE AIGUO;
         loadimage(&AIGUO, _T("res\\HANJIAN.png"));
-        //loadimage(&AIGUO, _T("res\\testForMemory.jpeg")); // 测试用
         putimage(440, 400, &AIGUO);
     }
 
@@ -211,7 +172,6 @@ void MenuEasyx::drawSettings()
     outtextxy(210, 410, d);
 
     // 添加确定和取消按钮
-    // 其实这俩一样
     settextstyle(16, 0, 0);
     rectangle(200, 500, 250, 530);
     TCHAR e[] = _T("确定");
@@ -233,8 +193,9 @@ void MenuEasyx::drawSettings()
             MOUSEMSG msg = GetMouseMsg();
             if (msg.uMsg == WM_LBUTTONDOWN)
             {
-                // 如果用户点击了确定按钮
-                if (msg.x >= 200 && msg.x <= 250 && msg.y >= 500 && msg.y <= 530)
+                // 如果用户点击了确定或取消按钮
+                if ((msg.x >= 200 && msg.x <= 250 && msg.y >= 500 && msg.y <= 530) ||
+                    (msg.x >= 350 && msg.x <= 400 && msg.y >= 500 && msg.y <= 530))
                 {
                     // 返回主菜单界面
                     mSettings = false;
@@ -243,110 +204,70 @@ void MenuEasyx::drawSettings()
                     break;
                 }
 
-                // 如果用户点击了取消按钮
-                if (msg.x >= 350 && msg.x <= 400 && msg.y >= 500 && msg.y <= 530)
-                {
-                    // 返回主菜单界面
-                    mAiGuo = false;
-                    mSettings = false;
-                    drawMenu();
-                    return;
-                }
-
                 // 如果用户点击了默认按钮
                 if (msg.x >= 220 && msg.x <= 280 && msg.y >= 260 && msg.y <= 290)
                 {
                     printf("默认\n");
-
-                    // 设置风格为默认
                     Theme = 0;
-
-                    // 更新选中状态
                     mIsDefaultSelected = true;
                     mIsOTTSelected = false;
                     mIsASoulSelected = false;
-
                     cleardevice();
                     drawSettings();
                 }
 
                 // 如果用户点击了 OTTO 按钮
-                if (msg.x >= 290 && msg.x <= 350 && msg.y >= 260 && msg.y <= 290)
+                else if (msg.x >= 290 && msg.x <= 350 && msg.y >= 260 && msg.y <= 290)
                 {
                     printf("OTTO\n");
-
-                    // 设置风格为 OTTO
                     Theme = 1;
-
-                    // 更新选中状态
                     mIsDefaultSelected = false;
                     mIsOTTSelected = true;
                     mIsASoulSelected = false;
-
                     cleardevice();
                     drawSettings();
                 }
 
                 // 如果用户点击了 A-Soul 按钮
-                if (msg.x >= 360 && msg.x <= 420 && msg.y >= 260 && msg.y <= 290)
+                else if (msg.x >= 360 && msg.x <= 420 && msg.y >= 260 && msg.y <= 290)
                 {
                     printf("A-Soul\n");
-
-                    // 设置风格为 A-Soul
                     Theme = 2;
-
-                    // 更新选中状态
                     mIsDefaultSelected = false;
                     mIsOTTSelected = false;
                     mIsASoulSelected = true;
-
                     cleardevice();
                     drawSettings();
                 }
 
                 // 如果用户点击了 6帧 按钮
-                if (msg.x >= 220 && msg.x <= 280 && msg.y >= 360 && msg.y <= 390)
+                else if (msg.x >= 220 && msg.x <= 280 && msg.y >= 360 && msg.y <= 390)
                 {
                     printf("6帧\n");
-
-                    // 设置帧率为 6 帧
                     FPS = 0;
-
-                    // 更新选中状态
                     mIs6Selected = true;
                     mIsNoLimitedSelected = false;
-
                     cleardevice();
                     drawSettings();
                 }
 
                 // 如果用户点击了 无限制帧 按钮
-                if (msg.x >= 290 && msg.x <= 350 && msg.y >= 360 && msg.y <= 390)
+                else if (msg.x >= 290 && msg.x <= 350 && msg.y >= 360 && msg.y <= 390)
                 {
                     printf("无限\n");
-
-                    // 设置帧率为无限制
                     FPS = 1;
-
-                    // 更新选中状态
                     mIs6Selected = false;
                     mIsNoLimitedSelected = true;
-
                     cleardevice();
                     drawSettings();
                 }
 
                 // 如果用户点击了 爱国 按钮
-                if (msg.x >= 220 && msg.x <= 430 && msg.y >= 460 && msg.y <= 490)
+                else if (msg.x >= 220 && msg.x <= 430 && msg.y >= 460 && msg.y <= 490)
                 {
-                    //rectangle(220, 460, /*380*/430, 490);
                     printf("爱国\n");
-
-                    // 更新选中状态
                     mAiGuo = true;
-
                     mciSendString(_T("play res\\HANJIAN.wav"), NULL, 0, NULL);
-
                     cleardevice();
                     drawSettings();
                 }

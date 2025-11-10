@@ -11,6 +11,7 @@ private:
 	void updateGrid();// 更新画面
 	bool handleInput();
 	bool isSame() const;// 判断数组前后是否相等 
+	void playThemeSound() const;// 播放主题音效
 
 	bool mStartGame = 0;
 
