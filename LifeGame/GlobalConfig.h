@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 const int CELL_SIZE = 20;
 const int COLS = WINDOW_WIDTH / CELL_SIZE;
 const int ROWS = WINDOW_HEIGHT / CELL_SIZE;
 
-extern int Theme; // 0ÎªÄ¬ÈÏ£¬1Îªµç¹÷£¬ 2Îª×êÍ·
-extern int FPS; // 0Îª6Ö¡£¬ 1ÎªÎŞÏŞÖÆ
+extern int Theme; // 0ä¸ºé»˜è®¤ï¼Œ1ä¸ºç”µæ£ï¼Œ 2ä¸ºé’»å¤´
+extern int FPS; // 0ä¸º6å¸§ï¼Œ 1ä¸ºæ— é™åˆ¶
 

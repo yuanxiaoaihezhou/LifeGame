@@ -1,9 +1,9 @@
-#include <graphics.h>
+ï»¿#include <graphics.h>
 #include <iostream>
 #include <mmsystem.h>
 #include "MenuEasyx.h"
 #include "GameEasyx.h"
-#pragma comment(lib, "winmm.lib")  // Á´½Ó winmm ¿â
+#pragma comment(lib, "winmm.lib")  // é“¾æŽ¥ winmm åº“
 
 int main()
 {

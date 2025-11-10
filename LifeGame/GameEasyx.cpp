@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include "GameEasyx.h"
 #include "GlobalConfig.h"
 #include <graphics.h>
@@ -26,7 +26,7 @@ GameEasyx::GameEasyx() {
     loadimage(&imgOTTO, _T("res\\otto.jpg"));
     loadimage(&imgAVA, _T("res\\DATOU.png"));
 
-    // ³õÊ¼»¯Íø¸ñ
+    // åˆå§‹åŒ–ç½‘æ ¼
     initNullGrid();
 }
 
@@ -67,61 +67,61 @@ flag1:
         drawGrid(Theme);
     }
 
-    // ÓÎÏ·Ö÷Ñ­»·
+    // æ¸¸æˆä¸»å¾ªç¯
     while (1)
     {
-        // ¼õÉÙ Sleep µÄÊ±¼ä
-        Sleep(1000 / 60); // ½«Ö¡ÂÊÌá¸ßµ½ 60 FPS
+        // å‡å°‘ Sleep çš„æ—¶é—´
+        Sleep(1000 / 60); // å°†å¸§ç‡æé«˜åˆ° 60 FPS
 
-        // ÖØÖÃ mHandleMenu
+        // é‡ç½® mHandleMenu
         if (mHandleRemenu == 1)
         {
             mHandleRemenu = 0;
             break;
         }
 
-        // ¸üÆµ·±µØ¼ì²éÊó±êÊÂ¼ş
+        // æ›´é¢‘ç¹åœ°æ£€æŸ¥é¼ æ ‡äº‹ä»¶
         if (MouseHit())
         {
             MOUSEMSG msg = GetMouseMsg();
             if (msg.uMsg == WM_LBUTTONDOWN)
             {
-                // Èç¹ûÓÃ»§µã»÷ÁË·µ»Ø°´Å¥
+                // å¦‚æœç”¨æˆ·ç‚¹å‡»äº†è¿”å›æŒ‰é’®
                 if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
                 {
-                    printf("·µ»Ø°´Å¥µãÏÂ\n");
-                    // ·µ»ØÖ÷²Ëµ¥½çÃæ
+                    printf("è¿”å›æŒ‰é’®ç‚¹ä¸‹\n");
+                    // è¿”å›ä¸»èœå•ç•Œé¢
                     break;
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁËÖØÖÃ°´Å¥
+                // å¦‚æœç”¨æˆ·ç‚¹å‡»äº†é‡ç½®æŒ‰é’®
                 if (msg.x >= 140 && msg.x <= 210 && msg.y >= 600 && msg.y <= 650)
                 {
-                    printf("ÓÎÏ·Ñ­»·ÖØÖÃ\n");
-                    initNullGrid(); // »òÕß initRandomGrid()
+                    printf("æ¸¸æˆå¾ªç¯é‡ç½®\n");
+                    initNullGrid(); // æˆ–è€… initRandomGrid()
                     for (int i = 0; i < COLS; i++)
                         for (int j = 0; j < ROWS; j++)
                             mUpdateGrid[i][j] = 0;
                     mGeneration = 0;
                     goto flag1;
-                    // ·µ»ØÖ÷²Ëµ¥½çÃæ
+                    // è¿”å›ä¸»èœå•ç•Œé¢
                 }
             }
         }
 
-        // »æÖÆÍø¸ñ
+        // ç»˜åˆ¶ç½‘æ ¼
         drawGrid(Theme);
 
-        // ¸üĞÂÍø¸ñ
+        // æ›´æ–°ç½‘æ ¼
         updateGrid();
 
-        // ¸üĞÂ´úÊı
+        // æ›´æ–°ä»£æ•°
         if (isSame() == 0)
             mGeneration += 1;
         if (mGeneration >= 999)
             mGeneration = 0;
 
-        // ¸ù¾İ FPS ÉèÖÃ Sleep Ê±¼ä
+        // æ ¹æ® FPS è®¾ç½® Sleep æ—¶é—´
         if (FPS == 0)
         {
             Sleep(1000 / 6);
@@ -133,22 +133,22 @@ void GameEasyx::drawGrid(int FillTheme)
 {
     BeginBatchDraw();
 
-    // ±³¾°É«Îª°×É«
+    // èƒŒæ™¯è‰²ä¸ºç™½è‰²
     setbkcolor(WHITE);
     cleardevice();
 
-    // »æÖÆÍø¸ñ
-    setlinestyle(PS_SOLID, 1); // ÉèÖÃÏßĞÍÎªÊµÏß£¬Ïß¿í1¸öÏñËØ
-    setlinecolor(BLACK);       // ÉèÖÃÏßµÄÑÕÉ«ÎªºÚÉ«
+    // ç»˜åˆ¶ç½‘æ ¼
+    setlinestyle(PS_SOLID, 1); // è®¾ç½®çº¿å‹ä¸ºå®çº¿ï¼Œçº¿å®½1ä¸ªåƒç´ 
+    setlinecolor(BLACK);       // è®¾ç½®çº¿çš„é¢œè‰²ä¸ºé»‘è‰²
     for (int i = 0; i < COLS; i++) {
         for (int j = 0; j < ROWS; j++) {
-            rectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);// »æÖÆ¾ØĞÎ
+            rectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);// ç»˜åˆ¶çŸ©å½¢
             if (mGrid[i][j] == 1)
             {
                 if (Theme == 0)
                 {
-                    setfillcolor(0x700B6E); // ÄÏ¿ª×Ï
-                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // Ìî³ä¾ØĞÎ
+                    setfillcolor(0x700B6E); // å—å¼€ç´«
+                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // å¡«å……çŸ©å½¢
                 }
                 if (Theme == 1)
                 {
@@ -162,39 +162,39 @@ void GameEasyx::drawGrid(int FillTheme)
         }
     }
 
-    setlinestyle(PS_SOLID, 1); // ÉèÖÃÏßĞÍÎªÊµÏß£¬Ïß¿í1¸öÏñËØ
-    setlinecolor(BLACK);       // ÉèÖÃÏßµÄÑÕÉ«ÎªºÚÉ«
+    setlinestyle(PS_SOLID, 1); // è®¾ç½®çº¿å‹ä¸ºå®çº¿ï¼Œçº¿å®½1ä¸ªåƒç´ 
+    setlinecolor(BLACK);       // è®¾ç½®çº¿çš„é¢œè‰²ä¸ºé»‘è‰²
     settextstyle(16, 0, 0);
 
-    // ·µ»Ø°´Å¥
+    // è¿”å›æŒ‰é’®
     rectangle(0, 600, 70, 650);
-    TCHAR e[] = _T("·µ»Ø");
+    TCHAR e[] = _T("è¿”å›");
     outtextxy(15, 620, e);
 
-    // ¿ªÊ¼°´Å¥
+    // å¼€å§‹æŒ‰é’®
     rectangle(70, 600, 140, 650);
-    TCHAR f[] = _T("¿ªÊ¼");
+    TCHAR f[] = _T("å¼€å§‹");
     outtextxy(85, 620, f);
 
-    // ÖØÖÃ°´Å¥
+    // é‡ç½®æŒ‰é’®
     rectangle(140, 600, 210, 650);
-    TCHAR g[] = _T("ÖØÖÃ");
+    TCHAR g[] = _T("é‡ç½®");
     outtextxy(155, 620, g);
 
-    // Ëæ»ú°´Å¥
+    // éšæœºæŒ‰é’®
     rectangle(210, 600, 280, 650);
-    TCHAR h[] = _T("Ëæ»ú");
+    TCHAR h[] = _T("éšæœº");
     outtextxy(225, 620, h);
 
-    // Öğ²½°´Å¥
+    // é€æ­¥æŒ‰é’®
     rectangle(280, 600, 350, 650);
-    TCHAR cZHUBU[] = _T("Öğ²½");
+    TCHAR cZHUBU[] = _T("é€æ­¥");
     outtextxy(295, 620, cZHUBU);
 
-    // ´ú 
+    // ä»£ 
     rectangle(350, 600, 420, 650);
-    char tempDAI[10] = "´ú: ";
-    sprintf(tempDAI, "´ú: %d", mGeneration);
+    char tempDAI[10] = "ä»£: ";
+    sprintf(tempDAI, "ä»£: %d", mGeneration);
 
     WCHAR wcDAI[200];
     MultiByteToWideChar(CP_ACP, 0, tempDAI, -1, wcDAI, sizeof(wcDAI));
@@ -204,14 +204,14 @@ void GameEasyx::drawGrid(int FillTheme)
 
     outtextxy(365, 620, cDAI);
 
-    // Á¢¼´Ë¢ĞÂÆÁÄ»
+    // ç«‹å³åˆ·æ–°å±å¹•
     FlushBatchDraw();
 }
 
-// ¸üĞÂÃ¿Ö¡£¬Ê¹ÓÃupdateGridÔİÊ±´æ´¢¸ü¸Ä£¬²¢ÔÚ±éÀúÍêÔ­¾ØÕóºó¸´ÖÆ»ØGrid
+// æ›´æ–°æ¯å¸§ï¼Œä½¿ç”¨updateGridæš‚æ—¶å­˜å‚¨æ›´æ”¹ï¼Œå¹¶åœ¨éå†å®ŒåŸçŸ©é˜µåå¤åˆ¶å›Grid
 void GameEasyx::updateGrid()
 {
-    memcpy(mGridCopy, mGrid, sizeof(mGrid)); // Ê¹ÓÃmemcpyº¯Êı´úÌæÁ½²ãforÑ­»·À´¿½±´mGridÊı×é
+    memcpy(mGridCopy, mGrid, sizeof(mGrid)); // ä½¿ç”¨memcpyå‡½æ•°ä»£æ›¿ä¸¤å±‚forå¾ªç¯æ¥æ‹·è´mGridæ•°ç»„
 
     int col, row;
     for (int i = 0; i < COLS; i++)
@@ -224,46 +224,46 @@ void GameEasyx::updateGrid()
             row = (j - 1 + ROWS) % ROWS;
             int next_row = (j + 1) % ROWS;
 
-            // ¼ÆËãÖÜÎ§Ï¸°ûÊıÁ¿
+            // è®¡ç®—å‘¨å›´ç»†èƒæ•°é‡
             int neighbours = mGrid[col][row] + mGrid[i][row] + mGrid[next_col][row] +
                 mGrid[col][j] + mGrid[next_col][j] +
                 mGrid[col][next_row] + mGrid[i][next_row] + mGrid[next_col][next_row];
 
-            // Ê¹ÓÃÈıÄ¿ÔËËã·û¼ò»¯´úÂë
+            // ä½¿ç”¨ä¸‰ç›®è¿ç®—ç¬¦ç®€åŒ–ä»£ç 
             mUpdateGrid[i][j] = mGrid[i][j] ? (neighbours < 2 || neighbours > 3 ? 0 : 1) : (neighbours == 3 ? 1 : 0);
         }
     }
 
-    memcpy(mGrid, mUpdateGrid, sizeof(mGrid)); // Ê¹ÓÃmemcpyº¯Êı´úÌæÁ½²ãforÑ­»·À´¿½±´mUpdateGridÊı×é
+    memcpy(mGrid, mUpdateGrid, sizeof(mGrid)); // ä½¿ç”¨memcpyå‡½æ•°ä»£æ›¿ä¸¤å±‚forå¾ªç¯æ¥æ‹·è´mUpdateGridæ•°ç»„
 }
 bool GameEasyx::handleInput()
 {
-    // ¼ì²âÊó±êÊÂ¼ş
+    // æ£€æµ‹é¼ æ ‡äº‹ä»¶
     if (MouseHit())
     {
         MOUSEMSG msg = GetMouseMsg();
         if (msg.uMsg == WM_LBUTTONDOWN)
         {
-            //¿ªÊ¼ÅĞ¶Ï
+            //å¼€å§‹åˆ¤æ–­
             if (msg.x >= 70 && msg.x <= 140 && msg.y >= 600 && msg.y <= 650)
             {
-                printf("ÓÎÏ·Ñ­»·¿ªÊ¼\n");
-                // ·µ»ØÖ÷²Ëµ¥½çÃæ
+                printf("æ¸¸æˆå¾ªç¯å¼€å§‹\n");
+                // è¿”å›ä¸»èœå•ç•Œé¢
                 mStartGame = 1;
                 return 1;
             }
 
-            //Ëæ»úÌî³ä
+            //éšæœºå¡«å……
             if (msg.x >= 210 && msg.x <= 280 && msg.y >= 600 && msg.y <= 650)
             {
-                printf("Ëæ»ú\n");
+                printf("éšæœº\n");
                 initRandomGrid();
             }
 
-            //Öğ²½
+            //é€æ­¥
             if (msg.x >= 280 && msg.x <= 350 && msg.y >= 600 && msg.y <= 650)
             {
-                printf("Öğ²½\n");
+                printf("é€æ­¥\n");
 
                 if (Theme == 1)
                 {
@@ -279,26 +279,26 @@ bool GameEasyx::handleInput()
                     mGeneration += 1;
             }
 
-            // Èç¹ûÓÃ»§µã»÷ÁËÖØÖÃ°´Å¥
+            // å¦‚æœç”¨æˆ·ç‚¹å‡»äº†é‡ç½®æŒ‰é’®
             if (msg.x >= 140 && msg.x <= 210 && msg.y >= 600 && msg.y <= 650)
             {
-                printf("ÓÎÏ·Ñ­»·ÖØÖÃ\n");
-                initNullGrid(); // »òÕß initRandomGrid()
+                printf("æ¸¸æˆå¾ªç¯é‡ç½®\n");
+                initNullGrid(); // æˆ–è€… initRandomGrid()
                 for (int i = 0; i < COLS; i++)
                     for (int j = 0; j < ROWS; j++)
                         mUpdateGrid[i][j] = 0;
                 mGeneration = 0;
             }
 
-            //Èç¹ûÓÃ»§µã»÷ÁË·µ»Ø°´Å¥
+            //å¦‚æœç”¨æˆ·ç‚¹å‡»äº†è¿”å›æŒ‰é’®
             if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
             {
-                printf("ÓÎÏ·Ñ­»··µ»Ø\n");
+                printf("æ¸¸æˆå¾ªç¯è¿”å›\n");
                 mHandleRemenu = 1;
                 return 1;
             }
 
-            // ÅĞ¶ÏÊó±êÊÇ·ñµã»÷ÁËÓÎÏ·ÇøÓòÄÚµÄ·½¸ñ
+            // åˆ¤æ–­é¼ æ ‡æ˜¯å¦ç‚¹å‡»äº†æ¸¸æˆåŒºåŸŸå†…çš„æ–¹æ ¼
             for (int i = 0; i < COLS; i++)
             {
                 for (int j = 0; j < ROWS; j++)
@@ -315,7 +315,7 @@ bool GameEasyx::handleInput()
                             mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
                         }
                         std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
-                        // ÉèÖÃ¶ÔÓ¦µÄmGrid[i][j]ÖµÎª1
+                        // è®¾ç½®å¯¹åº”çš„mGrid[i][j]å€¼ä¸º1
                         mGrid[i][j] = 1;
                     }
                 }
@@ -323,7 +323,7 @@ bool GameEasyx::handleInput()
         }
         if (msg.uMsg == WM_RBUTTONDOWN)
         {
-            // ÅĞ¶ÏÊó±êÊÇ·ñµã»÷ÁËÓÎÏ·ÇøÓòÄÚµÄ·½¸ñ
+            // åˆ¤æ–­é¼ æ ‡æ˜¯å¦ç‚¹å‡»äº†æ¸¸æˆåŒºåŸŸå†…çš„æ–¹æ ¼
             for (int i = 0; i < COLS; i++)
             {
                 for (int j = 0; j < ROWS; j++)
@@ -333,16 +333,16 @@ bool GameEasyx::handleInput()
                     {
                         if (Theme == 1)
                         {
-                            Sleep(100); // ½â¾öÒôÆµÖØµş£¬´ı²âÊÔ
+                            Sleep(100); // è§£å†³éŸ³é¢‘é‡å ï¼Œå¾…æµ‹è¯•
                             mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                         }
                         if (Theme == 2)
                         {
-                            Sleep(100);//½â¾öÒôÆµÖØµş£¬´ı²âÊÔ
+                            Sleep(100);//è§£å†³éŸ³é¢‘é‡å ï¼Œå¾…æµ‹è¯•
                             mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
                         }
                         std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
-                        // ÉèÖÃ¶ÔÓ¦µÄmGrid[i][j]ÖµÎª0
+                        // è®¾ç½®å¯¹åº”çš„mGrid[i][j]å€¼ä¸º0
                         mGrid[i][j] = 0;
                     }
                 }
@@ -362,7 +362,7 @@ bool GameEasyx::isSame() const
                 continue;
             else
             {
-                return 0;// ²»ÏàµÈ
+                return 0;// ä¸ç›¸ç­‰
             }
         }
     }

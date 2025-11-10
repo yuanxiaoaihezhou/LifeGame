@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include <graphics.h>
 #include "GlobalConfig.h"
 
 class GameEasyx 
 {
 private:
-	void initNullGrid();// ³õÊ¼»¯0¾ØÕó
-	void initRandomGrid();// ³õÊ¼»¯Ëæ»ú¾ØÕó
-	void drawGrid(int FillTheme);// ¸üĞÂ¾ØÕóÊı×é
-	void updateGrid();// ¸üĞÂ»­Ãæ
+	void initNullGrid();// åˆå§‹åŒ–0çŸ©é˜µ
+	void initRandomGrid();// åˆå§‹åŒ–éšæœºçŸ©é˜µ
+	void drawGrid(int FillTheme);// æ›´æ–°çŸ©é˜µæ•°ç»„
+	void updateGrid();// æ›´æ–°ç”»é¢
 	bool handleInput();
-	bool isSame() const;// ÅĞ¶ÏÊı×éÇ°ºóÊÇ·ñÏàµÈ 
+	bool isSame() const;// åˆ¤æ–­æ•°ç»„å‰åæ˜¯å¦ç›¸ç­‰ 
 
 	bool mStartGame = 0;
 

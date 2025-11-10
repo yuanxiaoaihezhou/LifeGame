@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 class MenuEasyx
 {
 private:
@@ -8,8 +8,8 @@ private:
 	bool mQuitGame = 0;
 
 	bool mIsDefaultSelected = 1;
-	bool mIsOTTSelected = false; // ±íÊ¾ÊÇ·ñÑ¡ÖĞÁË OTTO °´Å¥
-	bool mIsASoulSelected = false; // ±íÊ¾ÊÇ·ñÑ¡ÖĞÁË A-Soul °´Å¥
+	bool mIsOTTSelected = false; // è¡¨ç¤ºæ˜¯å¦é€‰ä¸­äº† OTTO æŒ‰é’®
+	bool mIsASoulSelected = false; // è¡¨ç¤ºæ˜¯å¦é€‰ä¸­äº† A-Soul æŒ‰é’®
 
 	bool mIs6Selected = 0;
 	bool mIsNoLimitedSelected = 1;
