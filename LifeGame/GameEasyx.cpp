@@ -9,19 +9,18 @@
 #include <iostream>
 
 GameEasyx::GameEasyx() {
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
 
-    if (Theme == 0)
+    // 加载主题音乐
+    const TCHAR* themeSounds[] = {
+        TEXT("res\\DeaufltGame.wav"),
+        TEXT("res\\GameOtto.wav"),
+        TEXT("res\\A-soul.wav")
+    };
+    
+    if (Theme >= 0 && Theme <= 2)
     {
-        PlaySound(TEXT("res\\DeaufltGame.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-    }
-    if (Theme == 1)
-    {
-        PlaySound(TEXT("res\\GameOtto.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-    }
-    if (Theme == 2)
-    {
-        PlaySound(TEXT("res\\A-soul.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+        PlaySound(themeSounds[Theme], NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     }
 
     loadimage(&imgOTTO, _T("res\\otto.jpg"));
@@ -33,13 +32,7 @@ GameEasyx::GameEasyx() {
 
 void GameEasyx::initNullGrid()
 {
-    for (int i = 0; i < COLS; i++)
-    {
-        for (int j = 0; j < ROWS; j++)
-        {
-            mGrid[i][j] = 0;
-        }
-    }
+    memset(mGrid, 0, sizeof(mGrid));
 }
 
 void GameEasyx::initRandomGrid()
@@ -154,18 +147,18 @@ void GameEasyx::drawGrid(int FillTheme)
             rectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);// 绘制矩形
             if (mGrid[i][j] == 1)
             {
-                if (Theme == 0)
+                switch (Theme)
                 {
+                case 0:
                     setfillcolor(0x700B6E); // 南开紫
-                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // 填充矩形
-                }
-                if (Theme == 1)
-                {
+                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);
+                    break;
+                case 1:
                     putimage(i * CELL_SIZE, j * CELL_SIZE, &imgOTTO);
-                }
-                if (Theme == 2)
-                {
+                    break;
+                case 2:
                     putimage(i * CELL_SIZE, j * CELL_SIZE, &imgAVA);
+                    break;
                 }
             }
         }
@@ -276,16 +269,7 @@ bool GameEasyx::handleInput()
                 msg.y >= BUTTON_Y_START && msg.y <= BUTTON_Y_END)
             {
                 printf("逐步\n");
-
-                if (Theme == 1)
-                {
-                    mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
-                }
-                else if (Theme == 2)
-                {
-                    mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
-                }
-
+                playThemeSound();
                 updateGrid();
                 if(!isSame())
                     mGeneration += 1;
@@ -316,14 +300,7 @@ bool GameEasyx::handleInput()
             
             if (i >= 0 && i < COLS && j >= 0 && j < ROWS)
             {
-                if (Theme == 1)
-                {
-                    mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
-                }
-                else if (Theme == 2)
-                {
-                    mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
-                }
+                playThemeSound();
                 std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
                 // 设置对应的mGrid[i][j]值为1
                 mGrid[i][j] = 1;
@@ -337,14 +314,7 @@ bool GameEasyx::handleInput()
             
             if (i >= 0 && i < COLS && j >= 0 && j < ROWS)
             {
-                if (Theme == 1)
-                {
-                    mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
-                }
-                else if (Theme == 2)
-                {
-                    mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
-                }
+                playThemeSound();
                 std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
                 // 设置对应的mGrid[i][j]值为0
                 mGrid[i][j] = 0;
@@ -358,4 +328,16 @@ bool GameEasyx::isSame() const
 {
     // 使用memcmp更高效地比较两个数组
     return memcmp(mUpdateGrid, mGridCopy, sizeof(mGrid)) == 0;
+}
+
+void GameEasyx::playThemeSound() const
+{
+    if (Theme == 1)
+    {
+        mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
+    }
+    else if (Theme == 2)
+    {
+        mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
+    }
 }
