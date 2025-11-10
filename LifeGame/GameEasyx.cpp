@@ -8,7 +8,7 @@
 #include <iostream>
 
 GameEasyx::GameEasyx() {
-    srand(time(NULL));
+    srand(time(nullptr));
 
     if (Theme == 0)
     {
@@ -26,7 +26,7 @@ GameEasyx::GameEasyx() {
     loadimage(&imgOTTO, _T("res\\otto.jpg"));
     loadimage(&imgAVA, _T("res\\DATOU.png"));
 
-    // ³õÊ¼»¯Íø¸ñ
+    // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     initNullGrid();
 }
 
@@ -61,70 +61,76 @@ void GameEasyx::initRandomGrid()
 
 void GameEasyx::run()
 {
-flag1:
-    while (handleInput() != 1)
+    bool restartGame = true;
+    
+    while (restartGame)
     {
-        drawGrid(Theme);
-    }
-
-    // ÓÎÏ·Ö÷Ñ­»·
-    while (1)
-    {
-        // ¼õÉÙ Sleep µÄÊ±¼ä
-        Sleep(1000 / 60); // ½«Ö¡ÂÊÌá¸ßµ½ 60 FPS
-
-        // ÖØÖÃ mHandleMenu
-        if (mHandleRemenu == 1)
+        restartGame = false;
+        
+        while (handleInput() != 1)
         {
-            mHandleRemenu = 0;
-            break;
+            drawGrid(Theme);
         }
 
-        // ¸üÆµ·±µØ¼ì²éÊó±êÊÂ¼þ
-        if (MouseHit())
+        // ï¿½ï¿½Ï·ï¿½ï¿½Ñ­ï¿½ï¿½
+        while (1)
         {
-            MOUSEMSG msg = GetMouseMsg();
-            if (msg.uMsg == WM_LBUTTONDOWN)
-            {
-                // Èç¹ûÓÃ»§µã»÷ÁË·µ»Ø°´Å¥
-                if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
-                {
-                    printf("·µ»Ø°´Å¥µãÏÂ\n");
-                    // ·µ»ØÖ÷²Ëµ¥½çÃæ
-                    break;
-                }
+            // ï¿½ï¿½ï¿½ï¿½ Sleep ï¿½ï¿½Ê±ï¿½ï¿½
+            Sleep(1000 / 60); // ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½ßµï¿½ 60 FPS
 
-                // Èç¹ûÓÃ»§µã»÷ÁËÖØÖÃ°´Å¥
-                if (msg.x >= 140 && msg.x <= 210 && msg.y >= 600 && msg.y <= 650)
+            // ï¿½ï¿½ï¿½ï¿½ mHandleMenu
+            if (mHandleRemenu == 1)
+            {
+                mHandleRemenu = 0;
+                break;
+            }
+
+            // ï¿½ï¿½Æµï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+            if (MouseHit())
+            {
+                MOUSEMSG msg = GetMouseMsg();
+                if (msg.uMsg == WM_LBUTTONDOWN)
                 {
-                    printf("ÓÎÏ·Ñ­»·ÖØÖÃ\n");
-                    initNullGrid(); // »òÕß initRandomGrid()
-                    for (int i = 0; i < COLS; i++)
-                        for (int j = 0; j < ROWS; j++)
-                            mUpdateGrid[i][j] = 0;
-                    mGeneration = 0;
-                    goto flag1;
-                    // ·µ»ØÖ÷²Ëµ¥½çÃæ
+                    // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ë·ï¿½ï¿½Ø°ï¿½Å¥
+                    if (msg.x >= BUTTON_RETURN_X1 && msg.x <= BUTTON_RETURN_X2 && msg.y >= BUTTON_Y && msg.y <= BUTTON_Y + BUTTON_HEIGHT)
+                    {
+                        printf("ï¿½ï¿½ï¿½Ø°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½\n");
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
+                        break;
+                    }
+
+                    // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½Å¥
+                    if (msg.x >= BUTTON_RESET_X1 && msg.x <= BUTTON_RESET_X2 && msg.y >= BUTTON_Y && msg.y <= BUTTON_Y + BUTTON_HEIGHT)
+                    {
+                        printf("ï¿½ï¿½Ï·Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
+                        initNullGrid(); // ï¿½ï¿½ï¿½ï¿½ initRandomGrid()
+                        for (int i = 0; i < COLS; i++)
+                            for (int j = 0; j < ROWS; j++)
+                                mUpdateGrid[i][j] = 0;
+                        mGeneration = 0;
+                        restartGame = true;
+                        break;
+                    }
                 }
             }
-        }
 
-        // »æÖÆÍø¸ñ
-        drawGrid(Theme);
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            drawGrid(Theme);
 
-        // ¸üÐÂÍø¸ñ
-        updateGrid();
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            updateGrid();
 
-        // ¸üÐÂ´úÊý
-        if (isSame() == 0)
-            mGeneration += 1;
-        if (mGeneration >= 999)
-            mGeneration = 0;
+            // ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½
+            if (isSame() == 0)
+                mGeneration += 1;
+            if (mGeneration >= 999)
+                mGeneration = 0;
 
-        // ¸ù¾Ý FPS ÉèÖÃ Sleep Ê±¼ä
-        if (FPS == 0)
-        {
-            Sleep(1000 / 6);
+            // ï¿½ï¿½ï¿½ï¿½ FPS ï¿½ï¿½ï¿½ï¿½ Sleep Ê±ï¿½ï¿½
+            if (FPS == 0)
+            {
+                Sleep(1000 / 6);
+            }
         }
     }
 }
@@ -133,22 +139,22 @@ void GameEasyx::drawGrid(int FillTheme)
 {
     BeginBatchDraw();
 
-    // ±³¾°É«Îª°×É«
+    // ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
     setbkcolor(WHITE);
     cleardevice();
 
-    // »æÖÆÍø¸ñ
-    setlinestyle(PS_SOLID, 1); // ÉèÖÃÏßÐÍÎªÊµÏß£¬Ïß¿í1¸öÏñËØ
-    setlinecolor(BLACK);       // ÉèÖÃÏßµÄÑÕÉ«ÎªºÚÉ«
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    setlinestyle(PS_SOLID, 1); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÊµï¿½ß£ï¿½ï¿½ß¿ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    setlinecolor(BLACK);       // ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
     for (int i = 0; i < COLS; i++) {
         for (int j = 0; j < ROWS; j++) {
-            rectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);// »æÖÆ¾ØÐÎ
+            rectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);// ï¿½ï¿½ï¿½Æ¾ï¿½ï¿½ï¿½
             if (mGrid[i][j] == 1)
             {
                 if (Theme == 0)
                 {
-                    setfillcolor(0x700B6E); // ÄÏ¿ª×Ï
-                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // Ìî³ä¾ØÐÎ
+                    setfillcolor(0x700B6E); // ï¿½Ï¿ï¿½ï¿½ï¿½
+                    fillrectangle(i * CELL_SIZE, j * CELL_SIZE, (i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 }
                 if (Theme == 1)
                 {
@@ -162,39 +168,39 @@ void GameEasyx::drawGrid(int FillTheme)
         }
     }
 
-    setlinestyle(PS_SOLID, 1); // ÉèÖÃÏßÐÍÎªÊµÏß£¬Ïß¿í1¸öÏñËØ
-    setlinecolor(BLACK);       // ÉèÖÃÏßµÄÑÕÉ«ÎªºÚÉ«
+    setlinestyle(PS_SOLID, 1); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÊµï¿½ß£ï¿½ï¿½ß¿ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    setlinecolor(BLACK);       // ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
     settextstyle(16, 0, 0);
 
-    // ·µ»Ø°´Å¥
-    rectangle(0, 600, 70, 650);
-    TCHAR e[] = _T("·µ»Ø");
+    // ï¿½ï¿½ï¿½Ø°ï¿½Å¥
+    rectangle(BUTTON_RETURN_X1, BUTTON_Y, BUTTON_RETURN_X2, BUTTON_Y + BUTTON_HEIGHT);
+    TCHAR e[] = _T("ï¿½ï¿½ï¿½ï¿½");
     outtextxy(15, 620, e);
 
-    // ¿ªÊ¼°´Å¥
-    rectangle(70, 600, 140, 650);
-    TCHAR f[] = _T("¿ªÊ¼");
+    // ï¿½ï¿½Ê¼ï¿½ï¿½Å¥
+    rectangle(BUTTON_START_X1, BUTTON_Y, BUTTON_START_X2, BUTTON_Y + BUTTON_HEIGHT);
+    TCHAR f[] = _T("ï¿½ï¿½Ê¼");
     outtextxy(85, 620, f);
 
-    // ÖØÖÃ°´Å¥
-    rectangle(140, 600, 210, 650);
-    TCHAR g[] = _T("ÖØÖÃ");
+    // ï¿½ï¿½ï¿½Ã°ï¿½Å¥
+    rectangle(BUTTON_RESET_X1, BUTTON_Y, BUTTON_RESET_X2, BUTTON_Y + BUTTON_HEIGHT);
+    TCHAR g[] = _T("ï¿½ï¿½ï¿½ï¿½");
     outtextxy(155, 620, g);
 
-    // Ëæ»ú°´Å¥
-    rectangle(210, 600, 280, 650);
-    TCHAR h[] = _T("Ëæ»ú");
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Å¥
+    rectangle(BUTTON_RANDOM_X1, BUTTON_Y, BUTTON_RANDOM_X2, BUTTON_Y + BUTTON_HEIGHT);
+    TCHAR h[] = _T("ï¿½ï¿½ï¿½");
     outtextxy(225, 620, h);
 
-    // Öð²½°´Å¥
-    rectangle(280, 600, 350, 650);
-    TCHAR cZHUBU[] = _T("Öð²½");
+    // ï¿½ð²½°ï¿½Å¥
+    rectangle(BUTTON_STEP_X1, BUTTON_Y, BUTTON_STEP_X2, BUTTON_Y + BUTTON_HEIGHT);
+    TCHAR cZHUBU[] = _T("ï¿½ï¿½");
     outtextxy(295, 620, cZHUBU);
 
-    // ´ú 
-    rectangle(350, 600, 420, 650);
-    char tempDAI[10] = "´ú: ";
-    sprintf(tempDAI, "´ú: %d", mGeneration);
+    // ï¿½ï¿½ 
+    rectangle(BUTTON_GEN_X1, BUTTON_Y, BUTTON_GEN_X2, BUTTON_Y + BUTTON_HEIGHT);
+    char tempDAI[10] = "ï¿½ï¿½: ";
+    sprintf(tempDAI, "ï¿½ï¿½: %d", mGeneration);
 
     WCHAR wcDAI[200];
     MultiByteToWideChar(CP_ACP, 0, tempDAI, -1, wcDAI, sizeof(wcDAI));
@@ -204,14 +210,14 @@ void GameEasyx::drawGrid(int FillTheme)
 
     outtextxy(365, 620, cDAI);
 
-    // Á¢¼´Ë¢ÐÂÆÁÄ»
+    // ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½Ä»
     FlushBatchDraw();
 }
 
-// ¸üÐÂÃ¿Ö¡£¬Ê¹ÓÃupdateGridÔÝÊ±´æ´¢¸ü¸Ä£¬²¢ÔÚ±éÀúÍêÔ­¾ØÕóºó¸´ÖÆ»ØGrid
+// ï¿½ï¿½ï¿½ï¿½Ã¿Ö¡ï¿½ï¿½Ê¹ï¿½ï¿½updateGridï¿½ï¿½Ê±ï¿½æ´¢ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ»ï¿½Grid
 void GameEasyx::updateGrid()
 {
-    memcpy(mGridCopy, mGrid, sizeof(mGrid)); // Ê¹ÓÃmemcpyº¯Êý´úÌæÁ½²ãforÑ­»·À´¿½±´mGridÊý×é
+    memcpy(mGridCopy, mGrid, sizeof(mGrid)); // Ê¹ï¿½ï¿½memcpyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½forÑ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mGridï¿½ï¿½ï¿½ï¿½
 
     int col, row;
     for (int i = 0; i < COLS; i++)
@@ -224,46 +230,46 @@ void GameEasyx::updateGrid()
             row = (j - 1 + ROWS) % ROWS;
             int next_row = (j + 1) % ROWS;
 
-            // ¼ÆËãÖÜÎ§Ï¸°ûÊýÁ¿
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î§Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             int neighbours = mGrid[col][row] + mGrid[i][row] + mGrid[next_col][row] +
                 mGrid[col][j] + mGrid[next_col][j] +
                 mGrid[col][next_row] + mGrid[i][next_row] + mGrid[next_col][next_row];
 
-            // Ê¹ÓÃÈýÄ¿ÔËËã·û¼ò»¯´úÂë
+            // Ê¹ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò»¯´ï¿½ï¿½ï¿½
             mUpdateGrid[i][j] = mGrid[i][j] ? (neighbours < 2 || neighbours > 3 ? 0 : 1) : (neighbours == 3 ? 1 : 0);
         }
     }
 
-    memcpy(mGrid, mUpdateGrid, sizeof(mGrid)); // Ê¹ÓÃmemcpyº¯Êý´úÌæÁ½²ãforÑ­»·À´¿½±´mUpdateGridÊý×é
+    memcpy(mGrid, mUpdateGrid, sizeof(mGrid)); // Ê¹ï¿½ï¿½memcpyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½forÑ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mUpdateGridï¿½ï¿½ï¿½ï¿½
 }
 bool GameEasyx::handleInput()
 {
-    // ¼ì²âÊó±êÊÂ¼þ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
     if (MouseHit())
     {
         MOUSEMSG msg = GetMouseMsg();
         if (msg.uMsg == WM_LBUTTONDOWN)
         {
-            //¿ªÊ¼ÅÐ¶Ï
-            if (msg.x >= 70 && msg.x <= 140 && msg.y >= 600 && msg.y <= 650)
+            //ï¿½ï¿½Ê¼ï¿½Ð¶ï¿½
+            if (msg.x >= BUTTON_START_X1 && msg.x <= BUTTON_START_X2 && msg.y >= BUTTON_Y && msg.y <= BUTTON_Y + BUTTON_HEIGHT)
             {
-                printf("ÓÎÏ·Ñ­»·¿ªÊ¼\n");
-                // ·µ»ØÖ÷²Ëµ¥½çÃæ
+                printf("ï¿½ï¿½Ï·Ñ­ï¿½ï¿½ï¿½ï¿½Ê¼\n");
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
                 mStartGame = 1;
                 return 1;
             }
 
-            //Ëæ»úÌî³ä
-            if (msg.x >= 210 && msg.x <= 280 && msg.y >= 600 && msg.y <= 650)
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            if (msg.x >= BUTTON_RANDOM_X1 && msg.x <= BUTTON_RANDOM_X2 && msg.y >= BUTTON_Y && msg.y <= BUTTON_Y + BUTTON_HEIGHT)
             {
-                printf("Ëæ»ú\n");
+                printf("ï¿½ï¿½ï¿½\n");
                 initRandomGrid();
             }
 
-            //Öð²½
-            if (msg.x >= 280 && msg.x <= 350 && msg.y >= 600 && msg.y <= 650)
+            //ï¿½ï¿½
+            if (msg.x >= BUTTON_STEP_X1 && msg.x <= BUTTON_STEP_X2 && msg.y >= BUTTON_Y && msg.y <= BUTTON_Y + BUTTON_HEIGHT)
             {
-                printf("Öð²½\n");
+                printf("ï¿½ï¿½\n");
 
                 if (Theme == 1)
                 {
@@ -279,73 +285,61 @@ bool GameEasyx::handleInput()
                     mGeneration += 1;
             }
 
-            // Èç¹ûÓÃ»§µã»÷ÁËÖØÖÃ°´Å¥
-            if (msg.x >= 140 && msg.x <= 210 && msg.y >= 600 && msg.y <= 650)
+            // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½Å¥
+            if (msg.x >= BUTTON_RESET_X1 && msg.x <= BUTTON_RESET_X2 && msg.y >= BUTTON_Y && msg.y <= BUTTON_Y + BUTTON_HEIGHT)
             {
-                printf("ÓÎÏ·Ñ­»·ÖØÖÃ\n");
-                initNullGrid(); // »òÕß initRandomGrid()
+                printf("ï¿½ï¿½Ï·Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
+                initNullGrid(); // ï¿½ï¿½ï¿½ï¿½ initRandomGrid()
                 for (int i = 0; i < COLS; i++)
                     for (int j = 0; j < ROWS; j++)
                         mUpdateGrid[i][j] = 0;
                 mGeneration = 0;
             }
 
-            //Èç¹ûÓÃ»§µã»÷ÁË·µ»Ø°´Å¥
-            if (msg.x >= 0 && msg.x <= 70 && msg.y >= 600 && msg.y <= 650)
+            //ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ë·ï¿½ï¿½Ø°ï¿½Å¥
+            if (msg.x >= BUTTON_RETURN_X1 && msg.x <= BUTTON_RETURN_X2 && msg.y >= BUTTON_Y && msg.y <= BUTTON_Y + BUTTON_HEIGHT)
             {
-                printf("ÓÎÏ·Ñ­»··µ»Ø\n");
+                printf("ï¿½ï¿½Ï·Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
                 mHandleRemenu = 1;
                 return 1;
             }
 
-            // ÅÐ¶ÏÊó±êÊÇ·ñµã»÷ÁËÓÎÏ·ÇøÓòÄÚµÄ·½¸ñ
-            for (int i = 0; i < COLS; i++)
+            // ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ·ï¿½ï¿½ï¿½
+            int i = msg.x / CELL_SIZE;
+            int j = msg.y / CELL_SIZE;
+            if (i >= 0 && i < COLS && j >= 0 && j < ROWS)
             {
-                for (int j = 0; j < ROWS; j++)
+                if (Theme == 1)
                 {
-                    if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
-                        msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
-                    {
-                        if (Theme == 1)
-                        {
-                            mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
-                        }
-                        if (Theme == 2)
-                        {
-                            mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
-                        }
-                        std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
-                        // ÉèÖÃ¶ÔÓ¦µÄmGrid[i][j]ÖµÎª1
-                        mGrid[i][j] = 1;
-                    }
+                    mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                 }
+                if (Theme == 2)
+                {
+                    mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
+                }
+                std::cout << "(" << i << "," << j << ")" << " = 1" << std::endl;
+                // ï¿½ï¿½ï¿½Ã¶ï¿½Ó¦ï¿½ï¿½mGrid[i][j]ÖµÎª1
+                mGrid[i][j] = 1;
             }
         }
         if (msg.uMsg == WM_RBUTTONDOWN)
         {
-            // ÅÐ¶ÏÊó±êÊÇ·ñµã»÷ÁËÓÎÏ·ÇøÓòÄÚµÄ·½¸ñ
-            for (int i = 0; i < COLS; i++)
+            // ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ·ï¿½ï¿½ï¿½
+            int i = msg.x / CELL_SIZE;
+            int j = msg.y / CELL_SIZE;
+            if (i >= 0 && i < COLS && j >= 0 && j < ROWS)
             {
-                for (int j = 0; j < ROWS; j++)
+                if (Theme == 1)
                 {
-                    if (msg.x >= i * CELL_SIZE && msg.x <= (i + 1) * CELL_SIZE &&
-                        msg.y >= j * CELL_SIZE && msg.y <= (j + 1) * CELL_SIZE)
-                    {
-                        if (Theme == 1)
-                        {
-                            Sleep(100); // ½â¾öÒôÆµÖØµþ£¬´ý²âÊÔ
-                            mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
-                        }
-                        if (Theme == 2)
-                        {
-                            Sleep(100);//½â¾öÒôÆµÖØµþ£¬´ý²âÊÔ
-                            mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
-                        }
-                        std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
-                        // ÉèÖÃ¶ÔÓ¦µÄmGrid[i][j]ÖµÎª0
-                        mGrid[i][j] = 0;
-                    }
+                    mciSendString(_T("play res\\Dududu.wav"), NULL, 0, NULL);
                 }
+                if (Theme == 2)
+                {
+                    mciSendString(_T("play res\\AVA.wav"), NULL, 0, NULL);
+                }
+                std::cout << "(" << i << "," << j << ")" << " = 0" << std::endl;
+                // ï¿½ï¿½ï¿½Ã¶ï¿½Ó¦ï¿½ï¿½mGrid[i][j]ÖµÎª0
+                mGrid[i][j] = 0;
             }
         }
     }
@@ -362,7 +356,7 @@ bool GameEasyx::isSame() const
                 continue;
             else
             {
-                return 0;// ²»ÏàµÈ
+                return 0;// ï¿½ï¿½ï¿½ï¿½ï¿½
             }
         }
     }

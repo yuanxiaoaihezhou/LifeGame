@@ -4,24 +4,25 @@
 #include "utils.h"
 #include <graphics.h>
 #include <cstdio>
+#include <new>
 
 MenuEasyx::MenuEasyx()
 {
     //initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50, EX_SHOWCONSOLE); // debug
     initgraph(WINDOW_WIDTH, WINDOW_HEIGHT + 50); // release
 	drawMenu();
-    PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ²¥·ÅÒôÀÖ
+    PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
 void MenuEasyx::drawMenu()
 {
-    printf("»æÖÆÖ÷²Ëµ¥");
+    printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½");
     setbkcolor(WHITE);
     cleardevice();
 
-    // »æÖÆ²Ëµ¥
-    setlinestyle(PS_SOLID, 1); // ÉèÖÃÏßÐÍÎªÊµÏß£¬Ïß¿í1¸öÏñËØ
-    setlinecolor(BLACK);       // ÉèÖÃÏßµÄÑÕÉ«ÎªºÚÉ«
+    // ï¿½ï¿½ï¿½Æ²Ëµï¿½
+    setlinestyle(PS_SOLID, 1); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÊµï¿½ß£ï¿½ï¿½ß¿ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    setlinecolor(BLACK);       // ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
 
     settextstyle(40, 0, 0);
     settextcolor(BLACK);
@@ -45,34 +46,37 @@ void MenuEasyx::drawMenu()
     TCHAR e[] = _T("Quit Game");
     outtextxy(240, 515, e);
 
-    // Ë¢ÐÂÆÁÄ»
+    // Ë¢ï¿½ï¿½ï¿½ï¿½Ä»
     BeginBatchDraw();
     FlushBatchDraw();
 }
 
 void MenuEasyx::run() 
 {
-    printf("Ö÷½çÃæÔËÐÐ\n");
+    printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
     FlushMouseMsgBuffer();
 
     while (!mStartGame && !mSettings && !mDevelopInfo && !mQuitGame)
     {
-        // ¼ì²âÊó±êÊÂ¼þ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
         if (MouseHit())
         {
             MOUSEMSG msg = GetMouseMsg();
             if (msg.uMsg == WM_LBUTTONDOWN)
             {
-                // Èç¹ûÓÃ»§µã»÷ÁË¿ªÊ¼ÓÎÏ·°´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿ï¿½Ê¼ï¿½ï¿½Ï·ï¿½ï¿½Å¥
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 200 && msg.y <= 250)
                 {
                     mStartGame = true;
-                    PlaySound(NULL, NULL, 0);  // Í£Ö¹ÒôÀÖ²¥·Å
-                    GameEasyx* game = new GameEasyx;
-                    game->run();
-                    delete game;
+                    PlaySound(NULL, NULL, 0);  // Í£Ö¹ï¿½ï¿½ï¿½Ö²ï¿½ï¿½ï¿½
+                    GameEasyx* game = new (std::nothrow) GameEasyx;
+                    if (game != nullptr)
+                    {
+                        game->run();
+                        delete game;
+                    }
                     drawMenu();
-                    PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ²¥·ÅÒôÀÖ
+                    PlaySound(TEXT("res\\OpeingTheme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     mStartGame = false;
                 }
 
@@ -80,16 +84,16 @@ void MenuEasyx::run()
                 {
                     mSettings = true;
                     cleardevice();
-                    printf("½øÈëÉèÖÃÒ³Ãæ\n"); // Ìí¼Óµ÷ÊÔÊä³ö
+                    printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½\n"); // ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     drawSettings();
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁË¿ª·¢ÕßÐÅÏ¢°´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Å¥
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 400 && msg.y <= 450)
                 {
                     mDevelopInfo = true;
                     cleardevice();
-                    printf("½øÈë¿ª·¢ÕßÐÅÏ¢Ò³Ãæ\n"); // Ìí¼Óµ÷ÊÔÊä³ö
+                    printf("ï¿½ï¿½ï¿½ë¿ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢Ò³ï¿½ï¿½\n"); // ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     drawDeveloperInfo();
                 }
 
@@ -105,44 +109,44 @@ void MenuEasyx::run()
 
 void MenuEasyx::drawSettings()
 {
-    // Çå¿ÕÊó±êÊÂ¼þ¶ÓÁÐ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     FlushMouseMsgBuffer();
 
     setbkcolor(WHITE);
     cleardevice();
 
-    // »æÖÆÉèÖÃÒ³Ãæ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
 
     settextstyle(40, 0, 0);
     settextcolor(BLACK);
-    TCHAR a[] = _T("ÉèÖÃ");
+    TCHAR a[] = _T("ï¿½ï¿½ï¿½ï¿½");
     outtextxy(200, 100, a);
 
-    // »æÖÆÄ¬ÈÏ°´Å¥
+    // ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½Ï°ï¿½Å¥
     settextstyle(16, 0, 0);
     if (mIsDefaultSelected) 
     {
-        setfillcolor(YELLOW); // Èç¹ûÄ¬ÈÏ°´Å¥±»Ñ¡ÖÐ£¬Ìî³ä»ÆÉ«
+        setfillcolor(YELLOW); // ï¿½ï¿½ï¿½Ä¬ï¿½Ï°ï¿½Å¥ï¿½ï¿½Ñ¡ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½É«
         fillrectangle(220, 260, 280, 290);
     }
     else
     {
-        setfillcolor(WHITE); // ·ñÔòÌî³ä°×É«
+        setfillcolor(WHITE); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
         fillrectangle(220, 260, 280, 290);
     }
     rectangle(220, 260, 280, 290);
-    TCHAR defaultTheme[] = _T("Ä¬ÈÏ");
+    TCHAR defaultTheme[] = _T("Ä¬ï¿½ï¿½");
     outtextxy(230, 265, defaultTheme);
 
-    // »æÖÆOTTO°´Å¥
+    // ï¿½ï¿½ï¿½ï¿½OTTOï¿½ï¿½Å¥
     if (mIsOTTSelected) 
     {
-        setfillcolor(YELLOW); // Èç¹û OTTO °´Å¥±»Ñ¡ÖÐ£¬Ìî³ä»ÆÉ«
+        setfillcolor(YELLOW); // ï¿½ï¿½ï¿½ OTTO ï¿½ï¿½Å¥ï¿½ï¿½Ñ¡ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½É«
         fillrectangle(290, 260, 350, 290);
     }
     else 
     {
-        setfillcolor(WHITE); // ·ñÔòÌî³ä°×É«
+        setfillcolor(WHITE); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
         fillrectangle(290, 260, 350, 290);
     }
     rectangle(290, 260, 350, 290);
@@ -150,15 +154,15 @@ void MenuEasyx::drawSettings()
     outtextxy(300, 265, OTTO);
 
 
-    // »æÖÆA-Soul°´Å¥
+    // ï¿½ï¿½ï¿½ï¿½A-Soulï¿½ï¿½Å¥
     if (mIsASoulSelected) 
     {
-        setfillcolor(YELLOW); // Èç¹û A-Soul °´Å¥±»Ñ¡ÖÐ£¬Ìî³ä»ÆÉ«
+        setfillcolor(YELLOW); // ï¿½ï¿½ï¿½ A-Soul ï¿½ï¿½Å¥ï¿½ï¿½Ñ¡ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½É«
         fillrectangle(360, 260, 420, 290);
     }
     else 
     {
-        setfillcolor(WHITE); // ·ñÔòÌî³ä°×É«
+        setfillcolor(WHITE); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
         fillrectangle(360, 260, 420, 290);
     }
     rectangle(360, 260, 420, 290);
@@ -167,10 +171,10 @@ void MenuEasyx::drawSettings()
 
     settextstyle(20, 0, 0);
     rectangle(200, 200, 400, 250);
-    TCHAR b[] = _T("·ç¸ñ");
+    TCHAR b[] = _T("ï¿½ï¿½ï¿½");
     outtextxy(210, 210, b);
 
-    // »æÖÆ6Ö¡°´Å¥
+    // ï¿½ï¿½ï¿½ï¿½6Ö¡ï¿½ï¿½Å¥
     if (mIs6Selected)
     {
         setfillcolor(YELLOW);
@@ -180,52 +184,52 @@ void MenuEasyx::drawSettings()
     TCHAR sixFrames[] = _T("6Ö¡");
     outtextxy(230, 365, sixFrames);
 
-    // »æÖÆÎÞÏÞÖÆÖ¡°´Å¥
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½Å¥
     if (mIsNoLimitedSelected)
     {
         setfillcolor(YELLOW);
         fillrectangle(290, 360, 350, 390);
     }
     rectangle(290, 360, 350, 390);
-    TCHAR noLimitFrame[] = _T("ÎÞÏÞ");
+    TCHAR noLimitFrame[] = _T("ï¿½ï¿½ï¿½ï¿½");
     outtextxy(300, 365, noLimitFrame);
 
     rectangle(200, 300, 400, 350);
-    TCHAR c[] = _T("»­ÃæÖÊÁ¿");
+    TCHAR c[] = _T("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
     outtextxy(210, 310, c);
 
     rectangle(220, 460, /*380*/430, 490);
-    TCHAR AIGUO[] = _T("ÎÄ×Ö£¬ÎÒÖ»ÓÃÖÐ¹úµÄ£¡");
+    TCHAR AIGUO[] = _T("ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½Ä£ï¿½");
     outtextxy(230, 465, AIGUO);
 
     if (mAiGuo)
     {
         IMAGE AIGUO;
         loadimage(&AIGUO, _T("res\\HANJIAN.png"));
-        //loadimage(&AIGUO, _T("res\\testForMemory.jpeg")); // ²âÊÔÓÃ
+        //loadimage(&AIGUO, _T("res\\testForMemory.jpeg")); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         putimage(440, 400, &AIGUO);
     }
 
     rectangle(200, 400, 400, 450);
-    TCHAR d[] = _T("ÓïÑÔ");
+    TCHAR d[] = _T("ï¿½ï¿½ï¿½ï¿½");
     outtextxy(210, 410, d);
 
-    // Ìí¼ÓÈ·¶¨ºÍÈ¡Ïû°´Å¥
-    // ÆäÊµÕâÁ©Ò»Ñù
+    // ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Å¥
+    // ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
     settextstyle(16, 0, 0);
     rectangle(200, 500, 250, 530);
-    TCHAR e[] = _T("È·¶¨");
+    TCHAR e[] = _T("È·ï¿½ï¿½");
     outtextxy(210, 505, e);
 
     rectangle(350, 500, 400, 530);
-    TCHAR f[] = _T("È¡Ïû");
+    TCHAR f[] = _T("È¡ï¿½ï¿½");
     outtextxy(360, 505, f);
 
-    // Ë¢ÐÂÆÁÄ»
+    // Ë¢ï¿½ï¿½ï¿½ï¿½Ä»
     BeginBatchDraw();
     FlushBatchDraw();
 
-    // µÈ´ýÓÃ»§½»»¥
+    // ï¿½È´ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
     while (mSettings)
     {
         if (MouseHit())
@@ -233,35 +237,35 @@ void MenuEasyx::drawSettings()
             MOUSEMSG msg = GetMouseMsg();
             if (msg.uMsg == WM_LBUTTONDOWN)
             {
-                // Èç¹ûÓÃ»§µã»÷ÁËÈ·¶¨°´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½Å¥
                 if (msg.x >= 200 && msg.x <= 250 && msg.y >= 500 && msg.y <= 530)
                 {
-                    // ·µ»ØÖ÷²Ëµ¥½çÃæ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
                     mSettings = false;
                     mAiGuo = false;
                     drawMenu();
                     break;
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁËÈ¡Ïû°´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Å¥
                 if (msg.x >= 350 && msg.x <= 400 && msg.y >= 500 && msg.y <= 530)
                 {
-                    // ·µ»ØÖ÷²Ëµ¥½çÃæ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
                     mAiGuo = false;
                     mSettings = false;
                     drawMenu();
                     return;
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁËÄ¬ÈÏ°´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½Ï°ï¿½Å¥
                 if (msg.x >= 220 && msg.x <= 280 && msg.y >= 260 && msg.y <= 290)
                 {
-                    printf("Ä¬ÈÏ\n");
+                    printf("Ä¬ï¿½ï¿½\n");
 
-                    // ÉèÖÃ·ç¸ñÎªÄ¬ÈÏ
+                    // ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ÎªÄ¬ï¿½ï¿½
                     Theme = 0;
 
-                    // ¸üÐÂÑ¡ÖÐ×´Ì¬
+                    // ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½×´Ì¬
                     mIsDefaultSelected = true;
                     mIsOTTSelected = false;
                     mIsASoulSelected = false;
@@ -270,15 +274,15 @@ void MenuEasyx::drawSettings()
                     drawSettings();
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁË OTTO °´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OTTO ï¿½ï¿½Å¥
                 if (msg.x >= 290 && msg.x <= 350 && msg.y >= 260 && msg.y <= 290)
                 {
                     printf("OTTO\n");
 
-                    // ÉèÖÃ·ç¸ñÎª OTTO
+                    // ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Îª OTTO
                     Theme = 1;
 
-                    // ¸üÐÂÑ¡ÖÐ×´Ì¬
+                    // ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½×´Ì¬
                     mIsDefaultSelected = false;
                     mIsOTTSelected = true;
                     mIsASoulSelected = false;
@@ -287,15 +291,15 @@ void MenuEasyx::drawSettings()
                     drawSettings();
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁË A-Soul °´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ A-Soul ï¿½ï¿½Å¥
                 if (msg.x >= 360 && msg.x <= 420 && msg.y >= 260 && msg.y <= 290)
                 {
                     printf("A-Soul\n");
 
-                    // ÉèÖÃ·ç¸ñÎª A-Soul
+                    // ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Îª A-Soul
                     Theme = 2;
 
-                    // ¸üÐÂÑ¡ÖÐ×´Ì¬
+                    // ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½×´Ì¬
                     mIsDefaultSelected = false;
                     mIsOTTSelected = false;
                     mIsASoulSelected = true;
@@ -304,15 +308,15 @@ void MenuEasyx::drawSettings()
                     drawSettings();
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁË 6Ö¡ °´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6Ö¡ ï¿½ï¿½Å¥
                 if (msg.x >= 220 && msg.x <= 280 && msg.y >= 360 && msg.y <= 390)
                 {
                     printf("6Ö¡\n");
 
-                    // ÉèÖÃÖ¡ÂÊÎª 6 Ö¡
+                    // ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½Îª 6 Ö¡
                     FPS = 0;
 
-                    // ¸üÐÂÑ¡ÖÐ×´Ì¬
+                    // ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½×´Ì¬
                     mIs6Selected = true;
                     mIsNoLimitedSelected = false;
 
@@ -320,15 +324,15 @@ void MenuEasyx::drawSettings()
                     drawSettings();
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁË ÎÞÏÞÖÆÖ¡ °´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ ï¿½ï¿½Å¥
                 if (msg.x >= 290 && msg.x <= 350 && msg.y >= 360 && msg.y <= 390)
                 {
-                    printf("ÎÞÏÞ\n");
+                    printf("ï¿½ï¿½ï¿½ï¿½\n");
 
-                    // ÉèÖÃÖ¡ÂÊÎªÎÞÏÞÖÆ
+                    // ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     FPS = 1;
 
-                    // ¸üÐÂÑ¡ÖÐ×´Ì¬
+                    // ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½×´Ì¬
                     mIs6Selected = false;
                     mIsNoLimitedSelected = true;
 
@@ -336,13 +340,13 @@ void MenuEasyx::drawSettings()
                     drawSettings();
                 }
 
-                // Èç¹ûÓÃ»§µã»÷ÁË °®¹ú °´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¥
                 if (msg.x >= 220 && msg.x <= 430 && msg.y >= 460 && msg.y <= 490)
                 {
                     //rectangle(220, 460, /*380*/430, 490);
-                    printf("°®¹ú\n");
+                    printf("ï¿½ï¿½ï¿½ï¿½\n");
 
-                    // ¸üÐÂÑ¡ÖÐ×´Ì¬
+                    // ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½×´Ì¬
                     mAiGuo = true;
 
                     mciSendString(_T("play res\\HANJIAN.wav"), NULL, 0, NULL);
@@ -360,33 +364,33 @@ void MenuEasyx::drawDeveloperInfo()
     setbkcolor(WHITE);
     cleardevice();
 
-    // »æÖÆ¿ª·¢ÕßÐÅÏ¢Ò³Ãæ
+    // ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢Ò³ï¿½ï¿½
     settextstyle(40, 0, 0);
     settextcolor(BLACK);
-    TCHAR a[] = _T("¿ª·¢ÕßÐÅÏ¢");
+    TCHAR a[] = _T("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢");
     outtextxy(150, 100, a);
 
     settextstyle(20, 0, 0);
-    TCHAR b[] = _T("¿ª·¢Õß£ºnad_iz");
+    TCHAR b[] = _T("ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½nad_iz");
     outtextxy(220, 200, b);
 
-    TCHAR c[] = _T("·¢²¼ÈÕÆÚ£º2023Äê5ÔÂ");
+    TCHAR c[] = _T("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½2023ï¿½ï¿½5ï¿½ï¿½");
     outtextxy(220, 250, c);
 
-    TCHAR d[] = _T("ÁªÏµ·½Ê½£º2211133@mail.nankai.edu.cn");
+    TCHAR d[] = _T("ï¿½ï¿½Ïµï¿½ï¿½Ê½ï¿½ï¿½2211133@mail.nankai.edu.cn");
     outtextxy(220, 300, d);
 
-    // Ìí¼Ó·µ»Ø°´Å¥
+    // ï¿½ï¿½ï¿½Ó·ï¿½ï¿½Ø°ï¿½Å¥
     settextstyle(16, 0, 0);
     rectangle(200, 500, 400, 530);
-    TCHAR e[] = _T("·µ»Ø");
+    TCHAR e[] = _T("ï¿½ï¿½ï¿½ï¿½");
     outtextxy(280, 505, e);
 
-    // Ë¢ÐÂÆÁÄ»
+    // Ë¢ï¿½ï¿½ï¿½ï¿½Ä»
     BeginBatchDraw();
     FlushBatchDraw();
 
-    // µÈ´ýÓÃ»§½»»¥
+    // ï¿½È´ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
     while (1)
     {
         if (MouseHit())
@@ -394,10 +398,10 @@ void MenuEasyx::drawDeveloperInfo()
             MOUSEMSG msg = GetMouseMsg();
             if (msg.uMsg == WM_LBUTTONDOWN)
             {
-                // Èç¹ûÓÃ»§µã»÷ÁË·µ»Ø°´Å¥
+                // ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ë·ï¿½ï¿½Ø°ï¿½Å¥
                 if (msg.x >= 200 && msg.x <= 400 && msg.y >= 500 && msg.y <= 530)
                 {
-                    // ·µ»ØÖ÷²Ëµ¥½çÃæ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
                     mDevelopInfo = false;
                     drawMenu();
                     return;
