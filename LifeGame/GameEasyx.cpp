@@ -61,10 +61,14 @@ void GameEasyx::run()
     {
         needRestart = false;
         
+        // 清空鼠标消息缓冲区，避免旧消息干扰
+        FlushMouseMsgBuffer();
+        
         // 等待用户设置初始状态
         while (handleInput() != 1)
         {
             drawGrid(Theme);
+            Sleep(10); // 添加短暂延迟，避免CPU占用过高并确保鼠标事件正常处理
         }
 
         // 游戏主循环
