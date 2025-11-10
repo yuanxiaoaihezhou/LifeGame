@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <tchar.h>
 class MenuEasyx
 {
 private:
